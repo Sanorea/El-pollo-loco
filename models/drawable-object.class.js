@@ -9,22 +9,23 @@ class DrawableObject {
         this.img.src = path;
     }
 
+
     loadImages(arr) {
         arr.forEach(path => {
             let img = new Image();
             img.src = path;
             this.imageCache[path] = img;            
         });
-
     }
+
 
     draw(ctx){
         ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
     }
 
-    drawFrame(ctx) {
 
-        if (this instanceof Character || this instanceof Chicken || this instanceof Coins || this instanceof Bottles || this instanceof Endboss) {
+    drawFrame(ctx) {
+        if (this instanceof Character || this instanceof Chicken ||/*  this instanceof SmallChicken || */ this instanceof Coins || this instanceof Bottles || this instanceof Endboss) {
         ctx.beginPath();
         ctx.lineWidth = '5';
         ctx.strokeStyle = 'blue';
@@ -33,8 +34,8 @@ class DrawableObject {
         }
     }
 
-    drawFrameOffsetCharacter(ctx) {
 
+    drawFrameOffsetCharacter(ctx) {
         if (this instanceof Character) {
         ctx.beginPath();
         ctx.lineWidth = '5';
@@ -44,8 +45,8 @@ class DrawableObject {
         }
     } 
 
-    drawFrameOffsetChicken(ctx) {
 
+    drawFrameOffsetChicken(ctx) {
         if (this instanceof Chicken) {
         ctx.beginPath();
         ctx.lineWidth = '5';
@@ -55,8 +56,8 @@ class DrawableObject {
         }
     } 
 
-    drawFrameOffsetCoins(ctx) {
 
+    drawFrameOffsetCoins(ctx) {
         if (this instanceof Coins) {
         ctx.beginPath();
         ctx.lineWidth = '5';

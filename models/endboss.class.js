@@ -32,7 +32,7 @@ class Endboss extends MovableObject {
         this.loadImages(this.IMAGES_WALKING);
         this.loadImages(this.IMAGES_DEAD);
         this.loadImages(this.IMAGES_HURT);
-        this.x = 800;
+        this.x = 2100; 
         this.y = 40;
         this.animateBossChicken();
     }
@@ -48,17 +48,5 @@ class Endboss extends MovableObject {
             }
         }
     , 200);};
-
-
-
-/*     stopAnimation() {
-        this.intervalIds.push(this.interval12);
-        for (let i = 0; i < this.intervalIds.length; i++) {
-            const id = this.intervalIds[i];
-            clearInterval(id);
-        }
-        clearInterval(12);
-    }; */
-
 
 }

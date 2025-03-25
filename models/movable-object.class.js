@@ -9,92 +9,79 @@ class MovableObject extends DrawableObject {
     intervalIds = [];
     i = 1;
     intervalIdGravity;
-    //intervalIdSpeed;
 
 
     applyGravity() {
         this.intervalIdGravity = setInterval(() => {
             if (this.isAboveGround() || this.speedY > 0) {
-            this.y -= this.speedY;
-            this.speedY -= this.acceleration;
+                this.y -= this.speedY;
+                this.speedY -= this.acceleration;
             }
-        }, 1000/25);
-        console.log('intervalIdGravity :>> ', this.intervalIdGravity);
-
+        }, 1000 / 25);
     }
 
     isAboveGround() {
         if (this instanceof ThrowableObject) { // wenn es eine Instanz von ThrowableObject ist
-        return true;           
+            return true;
         } else {
-            return this.y < 151; 
+            return this.y < 151;
         }
 
     }
 
 
-
-    playAnimation (images) {
+    playAnimation(images) {
         let i = this.currentImage % images.length; // let i = 0 % 6; 0, Rest 0 oder i = 1 % 5, Rest 1.... also 0, 1, 2, 3, 4, 5, 0, 1...
         let path = images[i];
         this.img = this.imageCache[path];
-        this.currentImage++;      
+        this.currentImage++;
     }
-    playAnimationBossChicken (images) {
+
+
+    playAnimationBossChicken(images) {
         for (let i = 0; i < images.length; i++) {
             let path = images[i];
             this.img = this.imageCache[path];
-            this.currentImage++; 
+            this.currentImage++;
         }
     }
 
 
-
-    moveRight(){
+    moveRight() {
         this.x += this.speed;
-    };
+    }
 
-    moveLeft() {  
+
+    moveLeft() {
         this.x -= this.speed;
-    };
+    }
+
 
     jump() {
-        this.speedY= 30;
+        this.speedY = 30;
     }
-   
-    isColliding(mo) {
-        if (this.x instanceof Endboss) {
-            console.log('mo.x :>> ', mo.x);
-            console.log('mo.y :>> ', mo.y);
-            console.log('this.x  < mo.x + mo.width :>> ', this.x  < mo.x + mo.width);
-        }
 
-        return this.x + this.width > mo.x  &&
-        this.y + this.height > mo.y  &&
-        this.x  < mo.x + mo.width &&
-        this.y < mo.y + mo.height ;
+    isColliding(mo) {
+        return this.x + this.width > mo.x &&
+            this.y + this.height > mo.y &&
+            this.x < mo.x + mo.width &&
+            this.y < mo.y + mo.height;
     }
 
     isCollidingCoin(mo) {
-        return this.x + this.width - this.offsetCharacter.right > mo.x + mo.offsetCoins.left  && // Charakter rechts, Münze links
-        this.y + this.height - this.offsetCharacter.bottom > mo.y + mo.offsetCoins.top  && // Charakter Füsse, Münze oben
-        this.x + this.offsetCharacter.left < mo.x + mo.width - mo.offsetCoins.right && // Charakter links, Münze rechts
-        this.y + this.offsetCharacter.top < mo.y + mo.height - mo.offsetCoins.bottom; // Charakter Kopf, Münze unten
+        return this.x + this.width - this.offsetCharacter.right > mo.x + mo.offsetCoins.left && // Charakter rechts, Münze links
+            this.y + this.height - this.offsetCharacter.bottom > mo.y + mo.offsetCoins.top && // Charakter Füsse, Münze oben
+            this.x + this.offsetCharacter.left < mo.x + mo.width - mo.offsetCoins.right && // Charakter links, Münze rechts
+            this.y + this.offsetCharacter.top < mo.y + mo.height - mo.offsetCoins.bottom; // Charakter Kopf, Münze unten
     }
 
     isCollidingBottles(mo) {
         return this.x + this.width > mo.x && // Charakter rechts, Münze links
-        this.y + this.height > mo.y   && // Charakter Füsse, Münze oben
-        this.x < mo.x + mo.width && // Charakter links, Münze rechts
-        this.y < mo.y + mo.height; // Charakter Kopf, Münze unten
+            this.y + this.height > mo.y && // Charakter Füsse, Münze oben
+            this.x < mo.x + mo.width && // Charakter links, Münze rechts
+            this.y < mo.y + mo.height; // Charakter Kopf, Münze unten
     }
 
-/*     isCollidingBottles(mo) {
-        return this.x + this.width - this.offsetCharacter.right > mo.x + mo.offsetBottles.left  && // Charakter rechts, Münze links
-        this.y + this.height - this.offsetCharacter.bottom > mo.y + mo.offsetBottles.top  && // Charakter Füsse, Münze oben
-        this.x + this.offsetCharacter.left < mo.x + mo.width - mo.offsetBottles.right && // Charakter links, Münze rechts
-        this.y + this.offsetCharacter.top < mo.y + mo.height - mo.offsetBottles.bottom; // Charakter Kopf, Münze unten
-    } */
 
     hit(remove) {
         this.energy -= remove;

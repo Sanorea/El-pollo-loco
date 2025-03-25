@@ -1,5 +1,6 @@
 class World {
     character = new Character();
+    throwableObject;
     coin = new Coins();
     bottle = new Bottles();
     level = level1;
@@ -12,10 +13,7 @@ class World {
     bottlesBar = new BottlesBar();
     throwableObjects = [];
     endboss = new Endboss();
-    test = new ThrowableObject();
-
-
-
+    throwDirection = false;
 
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d');
@@ -27,6 +25,7 @@ class World {
         this.checkCollisionsCoins();
         this.checkCollisionsBottles();
         this.checkCollisionsBossChicken();
+
     }
 
     setWorld() {
@@ -47,14 +46,20 @@ class World {
 
     checkThrowObjects() {
         if (this.keyboard.D) {
-            let bottle = new ThrowableObject(this.character.x + 100, this.character.y + 100);
+            this.defineDirectionThrowableObject();
+            let bottle = new ThrowableObject(this.character.x + 100, this.character.y + 100, this.throwDirection, this);
             this.throwableObjects.push(bottle);
-            this.checkCollisionsBossChicken()
         }
     }
 
     checkCollisions() {
         this.level.enemies.forEach((enemy) => {
+            if (this.character.isColliding(enemy)) {
+                this.character.hit(5);
+                this.statusBar.setPercentage(this.character.energy);
+            }
+        });
+        this.level.smallEnemies.forEach((enemy) => {
             if (this.character.isColliding(enemy)) {
                 this.character.hit(5);
                 this.statusBar.setPercentage(this.character.energy);
@@ -69,27 +74,14 @@ class World {
     }
 
     checkCollisionsBossChicken() {
-        let removeBottleFromList = [];
-
-        this.throwableObjects.forEach((bottle, bottleIndex) => {
-            if (this.endboss.isColliding(bottle)) {
-
-                this.endboss.hit(1);
-                //console.log('energy :>> ', this.endboss.energy);
-                //console.log('movableObject :>> ', this.test);
-                //this.throwableObjects = [];
-                removeBottleFromList.push(bottleIndex);
-                clearInterval(this.intervalIdSpeed);
-                clearInterval(this.intervalIdGravity);
-                //console.log('bottle :>> ', bottle.throw());
-                //console.log('bottle :>> ', bottle.y);
-
-            }
-        });
-        removeBottleFromList.forEach((bottleIndex) => {
-            this.throwableObjects.splice(bottleIndex)
-        });
-
+        setInterval(() => {
+            this.throwableObjects.forEach((bottle) => {
+                if (this.endboss.isColliding(bottle)) {
+                    this.throwableObjects = [];
+                    this.endboss.hit(1);
+                }
+            });
+        }, 400);
     }
 
     checkCollisionsCoins() {
@@ -105,6 +97,7 @@ class World {
         }, 20);
 
     }
+
 
     bottlesBarRefresh() {
         if (this.keyboard.D) {
@@ -125,7 +118,6 @@ class World {
                 }
             });
         }, 20);
-
     }
 
 
@@ -135,6 +127,7 @@ class World {
         this.addObjectsToMap(this.level.backgroundObjects);//Zeichnet Hintergrund
         this.addObjectsToMap(this.level.clouds); //Zeichnet Wolken  
         this.addObjectsToMap(this.level.enemies); //Zeichnet Hünchen
+        this.addObjectsToMap(this.level.smallEnemies); //Zeichnet kleine Hünchen        
         this.addObjectsToMap(this.level.coins); //Zeichnet Münzen
         this.addObjectsToMap(this.throwableObjects); // Zeichne Salsa-Flasche in der Luft
         this.addObjectsToMap(this.level.bottles); //Zeichne Salsa-Flasche am Boden     
@@ -143,11 +136,8 @@ class World {
         this.addToMap(this.coinsBar); // Zeichnet Statusbar für Münzen
         this.addToMap(this.bottlesBar); // Zeichnet Statusbar für Flaschen        
         this.ctx.translate(+this.camera_x, 0);
-
         this.addToMap(this.character); //Zeichnet Charakter
         this.addToMap(this.endboss);
-
-
         this.ctx.translate(-this.camera_x, 0);
         let self = this;
         requestAnimationFrame(function () {
@@ -158,6 +148,7 @@ class World {
     addObjectsToMap(objects) {
         objects.forEach(o => {
             this.addToMap(o);
+            
         });
     }
 
@@ -166,8 +157,8 @@ class World {
             this.flipImage(mo);
         }
         mo.draw(this.ctx);
-        mo.drawFrame(this.ctx);
-        mo.drawFrameOffsetCharacter(this.ctx);
+        //mo.drawFrame(this.ctx);
+        //mo.drawFrameOffsetCharacter(this.ctx);
         //mo.drawFrameOffsetChicken(this.ctx);
         //mo.drawFrameOffsetCoins(this.ctx);
         if (mo.otherDirection) {
@@ -185,6 +176,10 @@ class World {
     flipImageBack(mo) {
         mo.x = mo.x * -1;
         this.ctx.restore();
+    }
+
+    defineDirectionThrowableObject() {
+        this.throwDirection = this.character.otherDirection;
     }
 
     /*     removeObjectsFromMap(objects) {

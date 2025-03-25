@@ -1,8 +1,7 @@
 class ThrowableObject extends MovableObject {
-
-
-    constructor(x, y) {
+    constructor(x, y, throwDirection, world) {
         super().loadImage('img/6_salsa_bottle/bottle_rotation/1_bottle_rotation.png');
+        this.throwDirection = throwDirection;
         this.x = x;
         this.y = y;
         this.height = 80;
@@ -10,34 +9,22 @@ class ThrowableObject extends MovableObject {
         this.energyBottle;
         this.throw();
         this.intervalIdSpeed;
-        //this.stopBottleCollisionBossChicken();
-        //this.animateBossChicken();
-
     };
 
-
-/*     stopBottleCollisionBossChicken() {
-        console.log('klappt');
-        
-        this.throwableObjects.forEach((bottle) => { 
-            if (this.endboss.isColliding(bottle)) { 
-                clearInterval(intervalIdSpeed);
-            }                
-        });            
-    } */
-
+    //passt den Standort der Flasche gemäss Intervall an
     throw() {
-        this.speedY = 30;
-        this.applyGravity();
-        this.intervalIdSpeed = setInterval(() => {
-            this.x += 10; 
-            //console.log('intervalIdSpeed :>> ', this.x);
-        }, 25);
-        
-        //stopBottleCollisionBossChicken();
-        
-
-
+        if (this.throwDirection) {
+            this.speedY = 30;
+            this.applyGravity();
+            this.intervalIdSpeed = setInterval(() => {
+                this.x -= 10;
+            }, 25);
+        } else {
+            this.speedY = 30; 
+            this.applyGravity();
+            this.intervalIdSpeed = setInterval(() => {
+                this.x += 10;
+            }, 25);
+        }
     };
-
 }

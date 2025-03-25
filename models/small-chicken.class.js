@@ -1,25 +1,26 @@
-class Chicken extends MovableObject {
+class SmallChicken extends MovableObject {
  
-height = 70;
-width = 60;
-speed = 0.15;
+height = 50;
+width = 50;
+speed = 0.2;
 IMAGES_WALKING = [
-    'img/3_enemies_chicken/chicken_normal/1_walk/1_w.png',
-    'img/3_enemies_chicken/chicken_normal/1_walk/2_w.png',
-    'img/3_enemies_chicken/chicken_normal/1_walk/3_w.png'
+    'img/3_enemies_chicken/chicken_small/1_walk/1_w.png',
+    'img/3_enemies_chicken/chicken_small/1_walk/2_w.png',
+    'img/3_enemies_chicken/chicken_small/1_walk/3_w.png'
 ];
-offsetChicken = {
+/* offsetChicken = {
     top: 0,
     bottom: 0,
     left: 0,
     right: 0
-}
+} */
 
 constructor() {
-    super().loadImage('img/3_enemies_chicken/chicken_normal/1_walk/1_w.png');
+    super();
+    this.loadImage('img/3_enemies_chicken/chicken_small/1_walk/1_w.png');
 
     this.x = 200 + Math.random() * 2000; // zufällige Anordnung der Anfangsposition der Hünchen
-    this.y = 355;
+    this.y = 375;
 
     this.loadImages(this.IMAGES_WALKING);
 

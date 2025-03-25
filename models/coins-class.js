@@ -1,4 +1,4 @@
-class Coins extends CollectableObject {
+class Coins extends MovableObject {
 height = 100;
 width = 100;
 IMAGES_COIN = [
