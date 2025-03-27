@@ -7,9 +7,7 @@ class MovableObject extends DrawableObject {
     lastHit = 0;
     world;
     intervalIds = [];
-    i = 1;
     intervalIdGravity;
-
 
     applyGravity() {
         this.intervalIdGravity = setInterval(() => {
@@ -29,14 +27,12 @@ class MovableObject extends DrawableObject {
 
     }
 
-
     playAnimation(images) {
         let i = this.currentImage % images.length; // let i = 0 % 6; 0, Rest 0 oder i = 1 % 5, Rest 1.... also 0, 1, 2, 3, 4, 5, 0, 1...
         let path = images[i];
         this.img = this.imageCache[path];
         this.currentImage++;
     }
-
 
     playAnimationBossChicken(images) {
         for (let i = 0; i < images.length; i++) {
@@ -46,16 +42,13 @@ class MovableObject extends DrawableObject {
         }
     }
 
-
     moveRight() {
         this.x += this.speed;
     }
 
-
     moveLeft() {
         this.x -= this.speed;
     }
-
 
     jump() {
         this.speedY = 30;
@@ -82,7 +75,6 @@ class MovableObject extends DrawableObject {
             this.y < mo.y + mo.height; // Charakter Kopf, Münze unten
     }
 
-
     hit(remove) {
         this.energy -= remove;
         if (this.energy < 0) {
@@ -92,11 +84,9 @@ class MovableObject extends DrawableObject {
         }
     }
 
-
     isDead() {
         return this.energy == 0;
     }
-
 
     isHurt(time) {
         let timepassed = new Date().getTime() - this.lastHit; // Difference Anzeige zu Hit-Zeitpunkt in ms

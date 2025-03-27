@@ -23,6 +23,15 @@ class DrawableObject {
         ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
     }
 
+/*         draw(ctx){
+            if (this.img && this.img.complete) {  // Prüft, ob das Bild existiert und geladen ist
+                ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
+            } else {
+                console.warn('Bild noch nicht geladen:', this.img);
+            }
+        } */
+        
+
 
     drawFrame(ctx) {
         if (this instanceof Character || this instanceof Chicken ||/*  this instanceof SmallChicken || */ this instanceof Coins || this instanceof Bottles || this instanceof Endboss) {

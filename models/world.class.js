@@ -3,6 +3,7 @@ class World {
     throwableObject;
     coin = new Coins();
     bottle = new Bottles();
+    test = 'test';
     level = level1;
     canvas;
     ctx;
@@ -17,7 +18,7 @@ class World {
 
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d');
-        this.canvas = canvas;
+        this.canvas = canvas;    
         this.keyboard = keyboard;
         this.draw();
         this.setWorld();
@@ -25,7 +26,6 @@ class World {
         this.checkCollisionsCoins();
         this.checkCollisionsBottles();
         this.checkCollisionsBossChicken();
-
     }
 
     setWorld() {
@@ -42,7 +42,6 @@ class World {
 
         }, 200);
     }
-
 
     checkThrowObjects() {
         if (this.keyboard.D) {
@@ -98,14 +97,12 @@ class World {
 
     }
 
-
     bottlesBarRefresh() {
         if (this.keyboard.D) {
             this.bottle.throwCollectedBottles();
             this.bottlesBar.setPercentage(this.bottle.energyBottles);
         }
     }
-
 
     checkCollisionsBottles() {
         setInterval(() => {
@@ -193,6 +190,8 @@ class World {
             mo.remove(this.ctx);
         }
     } */
+
+      
 }
 
 

@@ -1,3 +1,4 @@
+
 const level1 = new level(
     [
         new Chicken(),
@@ -52,3 +53,4 @@ const level1 = new level(
         new Endboss()
     ],
 );
+

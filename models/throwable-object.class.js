@@ -1,5 +1,5 @@
 class ThrowableObject extends MovableObject {
-    constructor(x, y, throwDirection, world) {
+    constructor(x, y, throwDirection) {
         super().loadImage('img/6_salsa_bottle/bottle_rotation/1_bottle_rotation.png');
         this.throwDirection = throwDirection;
         this.x = x;
