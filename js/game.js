@@ -5,6 +5,8 @@ let keyboard = new Keyboard();
 function init() {
     canvas = document.getElementById('canvas');
     world = new World(canvas, keyboard);
+    //test();
+    //checkCollisionsJumpOnEnemies();
 }
 
 window.addEventListener('keydown', (event) => {

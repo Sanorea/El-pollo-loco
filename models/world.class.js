@@ -35,12 +35,16 @@ class World {
     run() {
         setInterval(() => {
             this.checkCollisions();
+
             if (this.bottle.energyBottles > 0) {
                 this.checkThrowObjects();
                 this.bottlesBarRefresh();
             }
 
         }, 200);
+        setInterval(() => {
+            checkCollisionsEnemies(world);
+        }, 20);
     }
 
     checkThrowObjects() {
@@ -71,6 +75,14 @@ class World {
             }
         });
     }
+
+    deadChicken(chicken) {
+        chicken.playDeadAnimation();
+        setTimeout(() => {
+          let i = this.level.enemies.indexOf(chicken);
+          if (i > -1) this.level.enemies.splice(i, 1);
+        }, 250);
+      }
 
     checkCollisionsBossChicken() {
         setInterval(() => {
