@@ -34,7 +34,7 @@ class World {
 
     run() {
         setInterval(() => {
-            this.checkCollisions();
+            checkCollisions();
 
             if (this.bottle.energyBottles > 0) {
                 this.checkThrowObjects();
@@ -55,26 +55,7 @@ class World {
         }
     }
 
-    checkCollisions() {
-        this.level.enemies.forEach((enemy) => {
-            if (this.character.isColliding(enemy)) {
-                this.character.hit(5);
-                this.statusBar.setPercentage(this.character.energy);
-            }
-        });
-        this.level.smallEnemies.forEach((enemy) => {
-            if (this.character.isColliding(enemy)) {
-                this.character.hit(5);
-                this.statusBar.setPercentage(this.character.energy);
-            }
-        });
-        this.level.endboss.forEach((enemy) => {
-            if (this.character.isColliding(enemy)) {
-                this.character.hit(5);
-                this.statusBar.setPercentage(this.character.energy);
-            }
-        });
-    }
+
 
     deadChicken(enemy, enemiePath) {
         enemy.playDeadAnimation();

@@ -20,7 +20,6 @@ function checkCollisionsJumpOnEnemies(world, enemy, enemiePath) {
     let headOfChicken = enemy.y + (enemy.height * 0.6);
     if (feetOfCharacter <= headOfChicken) {
         world.deadChicken(enemy, enemiePath);
-        //console.log('enemiePath :>> ', enemiePath);
     }
 }
 
@@ -29,4 +28,25 @@ function isColliding(character, enemy) {
         character.y + character.height > enemy.y &&
         character.x < enemy.x + enemy.width &&
         character.y < enemy.y + enemy.height;
+}
+
+function checkCollisions() {
+    world.level.enemies.forEach((enemy) => {
+        if (world.character.isColliding(enemy)) {
+            world.character.hit(5);
+            world.statusBar.setPercentage(world.character.energy);
+        }
+    });
+    world.level.smallEnemies.forEach((enemy) => {
+        if (world.character.isColliding(enemy)) {
+            world.character.hit(5);
+            world.statusBar.setPercentage(world.character.energy);
+        }
+    });
+    world.level.endboss.forEach((enemy) => {
+        if (world.character.isColliding(enemy)) {
+            world.character.hit(5);
+            world.statusBar.setPercentage(world.character.energy);
+        }
+    });
 }

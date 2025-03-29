@@ -27,6 +27,51 @@ canvas {
     display: block;
 }
 
+.gameover {
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    z-index: 900;
+}
+
+.gameover-img {
+    position: absolute;
+    height: 480px;
+    width: 720px;
+    margin-top: 150px;
+}
+
+.gameover-screen-button-container {
+    position: absolute;
+    top:  720px;
+}
+
+.gameover-screen-button {
+    margin-inline: 50px;
+    height: 40px;
+    width: 130px;
+    background-color: rgba(255, 206, 22, 1) ;
+    border-color: rgba(125, 47, 19, 1);
+    border-radius: 16px;
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: 800;
+    color: rgba(125, 47, 19, 1);
+}
+.gameover-screen-button:hover {
+    transform: scale(1.1);
+}
+
+
+
+.d-none {
+    display: none;
+}
+
 @media only screen and (max-width: 720px) {
     canvas {
         width: 100%;

@@ -125,6 +125,8 @@ class Character extends MovableObject {
                 this.playAnimation(this.IMAGES_DEAD);
                 this.y -= this.deadSpeedY;
                 this.deadSpeedY -= this.acceleration + 4;
+                let gameoverScreen = document.getElementById('gameover-screen');
+                gameoverScreen.classList.remove('d-none');
             } else if (this.isHurt(1)) {
                 this.playAnimation(this.IMAGES_HURT);
             } else if (this.isAboveGround()) {
