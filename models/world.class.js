@@ -76,13 +76,19 @@ class World {
         });
     }
 
-    deadChicken(chicken) {
-        chicken.playDeadAnimation();
+    deadChicken(enemy, enemiePath) {
+        enemy.playDeadAnimation();
+        this.enemyDespawned (enemy, enemiePath);
+    }
+
+    enemyDespawned(enemy, enemiePath) {
+        this.enemieArray = enemiePath;
         setTimeout(() => {
-          let i = this.level.enemies.indexOf(chicken);
-          if (i > -1) this.level.enemies.splice(i, 1);
+          let i = this.enemieArray.indexOf(enemy);
+          if (i > -1) this.enemieArray.splice(i, 1);
         }, 250);
-      }
+    }
+
 
     checkCollisionsBossChicken() {
         setInterval(() => {

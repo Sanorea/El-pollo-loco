@@ -4,6 +4,7 @@ class Character extends MovableObject {
     height = 270;
     width = 110;
     speed = 6;
+    deadAnimationSpeedY = 30;
 
     IMAGES_WALKING = [
         'img/2_character_pepe/2_walk/W-21.png',
@@ -80,6 +81,7 @@ class Character extends MovableObject {
 
     idleCounter = 0;
     lastMoveTime = 0;
+    deadSpeedY = 30;
 
 
 
@@ -119,7 +121,10 @@ class Character extends MovableObject {
 
         setInterval(() => {
             if (this.isDead()) {
+                clearInterval(this.intervalIdGravity);
                 this.playAnimation(this.IMAGES_DEAD);
+                this.y -= this.deadSpeedY;
+                this.deadSpeedY -= this.acceleration + 4;
             } else if (this.isHurt(1)) {
                 this.playAnimation(this.IMAGES_HURT);
             } else if (this.isAboveGround()) {
@@ -127,24 +132,20 @@ class Character extends MovableObject {
             } else {
                 if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) { // || bedeutet oder                    
                     this.playAnimation(this.IMAGES_WALKING);
-                    //this.idleCounter = 0;
                 } else {
                     let actuelTime = new Date().getTime(); //vergangene Zeit seid 1.1.1970
                     if (actuelTime - this.lastMoveTime > 5000) {
                         this.playAnimation(this.IMAGES_LONGIDLE);
-                        
                     } else {
                         this.playAnimation(this.IMAGES_IDLE);
                     }
                 }
             }
         }, 100);
-
-
-
     };
+
 
     jump() {
         this.speedY = 30;
-    }
+    };
 }
