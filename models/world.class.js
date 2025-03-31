@@ -4,7 +4,7 @@ class World {
     coin = new Coins();
     bottle = new Bottles();
     test = 'test';
-    level = level1;
+    level = createLevel();
     canvas;
     ctx;
     keyboard;
@@ -15,6 +15,11 @@ class World {
     throwableObjects = [];
     endboss = new Endboss();
     throwDirection = false;
+    checkCollisionsThrowBottlesInterval;
+    checkCollisionsEnemiesInterval;
+    checkCollisionsBossChickenInterval;
+    checkCollisionsCoinsInterval;
+    checkCollisionsBottlesInterval;
 
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d');
@@ -33,19 +38,18 @@ class World {
     }
 
     run() {
-        setInterval(() => {
+        this.checkCollisionsThrowBottlesInterval = setInterval(() => {
             checkCollisions();
-
             if (this.bottle.energyBottles > 0) {
                 this.checkThrowObjects();
                 this.bottlesBarRefresh();
             }
-
         }, 200);
-        setInterval(() => {
+        this.checkCollisionsEnemiesInterval = setInterval(() => {
             checkCollisionsEnemies(world);
         }, 20);
     }
+
 
     checkThrowObjects() {
         if (this.keyboard.D) {
@@ -72,7 +76,7 @@ class World {
 
 
     checkCollisionsBossChicken() {
-        setInterval(() => {
+        this.checkCollisionsBossChickenInterval = setInterval(() => {
             this.throwableObjects.forEach((bottle) => {
                 if (this.endboss.isColliding(bottle)) {
                     this.throwableObjects = [];
@@ -83,7 +87,7 @@ class World {
     }
 
     checkCollisionsCoins() {
-        setInterval(() => {
+        this.checkCollisionsCoinsInterval = setInterval(() => {
             this.level.coins.forEach((coin) => {
                 if (this.character.isCollidingCoin(coin)) {
                     this.coin.hitCoins();
@@ -104,7 +108,7 @@ class World {
     }
 
     checkCollisionsBottles() {
-        setInterval(() => {
+        this.checkCollisionsBottlesInterval = setInterval(() => {
             this.level.bottles.forEach((bottle) => {
                 if (this.character.isCollidingBottles(bottle)) {
                     this.bottle.hitBottles();
@@ -177,20 +181,7 @@ class World {
     defineDirectionThrowableObject() {
         this.throwDirection = this.character.otherDirection;
     }
-
-    /*     removeObjectsFromMap(objects) {
-        objects.forEach(o => {
-            this.removeFromMap(o);
-        });
-    }
-
-    removeFromMap(mo) {
-        if (checkCollisionsCoins()) {
-            mo.remove(this.ctx);
-        }
-    } */
-
-      
+     
 }
 
 

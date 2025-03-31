@@ -3,6 +3,8 @@ class Endboss extends MovableObject {
     height = 410;
     width = 400;
     energy = 3;
+    bossAnimationInterval;
+    bossAnimationTimeout;
 
     IMAGES_WALKING = [
         'img/4_enemie_boss_chicken/2_alert/G5.png',
@@ -32,21 +34,29 @@ class Endboss extends MovableObject {
         this.loadImages(this.IMAGES_WALKING);
         this.loadImages(this.IMAGES_DEAD);
         this.loadImages(this.IMAGES_HURT);
-        this.x = 2700; 
+        this.x = 2700;
         this.y = 40;
         this.animateBossChicken();
     }
 
     animateBossChicken() {
-        setInterval(() => {
-        if (this.isDead()) {
-            this.playAnimationBossChicken(this.IMAGES_DEAD);
-        } else if (this.isHurt(2)) {
-            this.playAnimation(this.IMAGES_HURT);
-        } else {
+        this.bossAnimationInterval = setInterval(() => {
+            if (this.isDead()) {
+                this.playAnimationBossChicken(this.IMAGES_DEAD);
+                //clearIntervals();
+                this.bossAnimationTimeout = setTimeout(() => {
+                    document.getElementById('winScreen').classList.remove('d-none');
+                    document.getElementById('menuButtonGame').classList.add('d-none');
+                    clearAllIntervals();
+                }, 1000);
+
+            } else if (this.isHurt(2)) {
+                this.playAnimation(this.IMAGES_HURT);
+            } else {
                 this.playAnimation(this.IMAGES_WALKING);
             }
         }
-    , 200);};
+            , 200);
+    };
 
 }

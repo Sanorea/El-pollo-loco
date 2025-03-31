@@ -5,6 +5,7 @@ class Character extends MovableObject {
     width = 110;
     speed = 6;
     deadAnimationSpeedY = 30;
+    animationInterval;
 
     IMAGES_WALKING = [
         'img/2_character_pepe/2_walk/W-21.png',
@@ -119,14 +120,19 @@ class Character extends MovableObject {
         }, 1000 / 60);
 
 
-        setInterval(() => {
+        this.animationInterval = setInterval(() => {
             if (this.isDead()) {
-                clearInterval(this.intervalIdGravity);
+  
+
                 this.playAnimation(this.IMAGES_DEAD);
+                setTimeout(() => {
+                    let gameoverScreen = document.getElementById('gameover-screen');
+                    document.getElementById('menuButtonGame').classList.add('d-none');
+                    gameoverScreen.classList.remove('d-none');
+                }, 1500);
                 this.y -= this.deadSpeedY;
                 this.deadSpeedY -= this.acceleration + 4;
-                let gameoverScreen = document.getElementById('gameover-screen');
-                gameoverScreen.classList.remove('d-none');
+
             } else if (this.isHurt(1)) {
                 this.playAnimation(this.IMAGES_HURT);
             } else if (this.isAboveGround()) {

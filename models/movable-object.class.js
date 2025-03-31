@@ -6,12 +6,11 @@ class MovableObject extends DrawableObject {
     energy = 100;
     lastHit = 0;
     world;
-    intervalIds = [];
     intervalIdGravity;
 
     applyGravity() {
 
-        
+
         this.intervalIdGravity = setInterval(() => {
             if (this.isAboveGround() || this.speedY > 0) {
                 this.y -= this.speedY;
@@ -37,12 +36,33 @@ class MovableObject extends DrawableObject {
     }
 
     playAnimationBossChicken(images) {
-        for (let i = 0; i < images.length; i++) {
+        let i = this.currentImage % images.length; // let i = 0 % 6; 0, Rest 0 oder i = 1 % 5, Rest 1.... also 0, 1, 2, 3, 4, 5, 0, 1...
+        console.log('i :>> ', i);
+        console.log('images.length :>> ', images.length);
+        if (i == images.length-1) {
+            console.log('stop');
+            let path = images[i];
+            this.img = this.imageCache[path];
+
+        } else {
             let path = images[i];
             this.img = this.imageCache[path];
             this.currentImage++;
+            console.log('this.img :>> ', this.img);
+            
         }
+
     }
+    /* 
+        playAnimationBossChicken(images) {
+            for (let i = 0; i < images.length; i++) {
+                let path = images[i];
+                this.img = this.imageCache[path];
+                console.log('i :>> ', path);
+                this.i++;
+            }
+        } */
+
 
     moveRight() {
         this.x += this.speed;

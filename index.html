@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
-<html translate ="no">
+<html translate="no">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
     <title>El pollo loco</title>
+    <link rel="icon" type="image/png" href="img/11_Favicon/Icon-LogoMakr.png">
     <script src="models/drawable-object.class.js"></script>
     <script src="models/movable-object.class.js"></script>
     <script src="models/allBars.js"></script>
@@ -27,19 +29,70 @@
     <script src="models/world.class.js"></script>
     <script src="js/game.js"></script>
     <script src="js/collisions.js"></script>
-
 </head>
+
 <body onload="init()">
     <h1>El pollo loco</h1>
     <canvas id="canvas" width="720" height="480">
     </canvas>
-    <div id="gameover-screen" class="gameover d-none">
+    <div class="menu-button-ingame-container d-none" id="menuButtonGame">
+        <button onclick="openMenu()" class="menu-button-ingame">Menu</button>
+        <button onclick="restart()" class="menu-button-ingame">Restart</button>
+    </div>
+    
+    <div id="gameover-screen" class="overlay d-none">
         <img class="gameover-img" src="img/9_intro_outro_screens/game_over/game over.png" alt="">
         <div class="gameover-screen-button-container">
-            <button class="gameover-screen-button">Restart</button>
-            <button class="gameover-screen-button">Menu</button>
+            <button onclick="restart()" class="gameover-screen-button">Restart</button>
+            <button onclick="openMenu()" class="gameover-screen-button">Menu</button>
         </div>
 
     </div>
+    <div id="winScreen" class="overlay d-none ">
+        <div class="background-win-screen">
+            <h2>YOU WIN!</h2>
+            <div class="win-screen-button-container">
+                <button onclick="restart()" class="gameover-screen-button">Restart</button>
+                <button onclick="openMenu()" class="gameover-screen-button">Menu</button>
+            </div>
+        </div>
+
+    </div>
+    </canvas>
+    <div id="menu-screen" class="overlay">
+        <img class="gameover-img" src="img/9_intro_outro_screens/start/startscreen_1.png" alt="">
+        <div class="gameover-screen-button-container">
+            <button onclick="restart()" class="gameover-screen-button">Start</button>
+            <button onclick="openInstructions()" class="gameover-screen-button">Instructions</button>
+            <button onclick="openSettings()" class="gameover-screen-button">Settings</button>
+        </div>
+
+    </div>
+
+    <div id="instruction-screen" class="overlay d-none">
+        <img class="gameover-img" src="img/9_intro_outro_screens/start/startscreen_1.png" alt="">
+        <div class="instruction-text">
+            <h3>Instructions</h3>
+            <p>Hier wird das Spiel erklärt</p>
+            <div class="gameover-screen-button-container">
+                <button onclick="openMenu()" class="gameover-screen-button">Menu</button>
+            </div>
+        </div>
+    </div>
+    <div id="setting-screen" class="overlay d-none">
+        <img class="gameover-img" src="img/9_intro_outro_screens/start/startscreen_1.png" alt="">
+        <div class="instruction-text">
+            <h3>Settings</h3>
+            <p>Hier kommen die Einstellungen.</p>
+            <div class="gameover-screen-button-container">
+                <button onclick="openMenu()" class="gameover-screen-button">Menu</button>
+            </div>
+        </div>
+
+
+
+    </div>
+
 </body>
+
 </html>

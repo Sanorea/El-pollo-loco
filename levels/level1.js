@@ -1,5 +1,5 @@
-
-const level1 = new level(
+function createLevel() {
+    return new level(
     [
         new Chicken(),
         new Chicken(),
@@ -67,4 +67,4 @@ const level1 = new level(
         new Endboss()
     ],
 );
-
+}

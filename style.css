@@ -14,6 +14,7 @@ body {
     height: 100vh;
     margin: 0;
     font-family: 'zabars', Arial, Helvetica, sans-serif;
+    color: rgba(125, 47, 19, 1);
 }
 
 h1 {
@@ -22,12 +23,31 @@ h1 {
     text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
 }
 
+h2 {
+    font-size: 160px;
+    color: rgba(255, 206, 22, 1);
+    text-shadow:
+        -4px -2px 0 rgba(125, 47, 19, 1),
+        4px -2px 0 rgba(125, 47, 19, 1),
+        -10px 10px 0 rgba(125, 47, 19, 1),
+        4px 2px 0 rgba(125, 47, 19, 1);
+
+}
+
+h3 {
+    font-size: 36px;
+}
+
+p {
+font-size: 24px;
+}
+
 canvas {
     background-color: black;
     display: block;
 }
 
-.gameover {
+.overlay {
     height: 100vh;
     width: 100vw;
     display: flex;
@@ -47,14 +67,14 @@ canvas {
 
 .gameover-screen-button-container {
     position: absolute;
-    top:  720px;
+    top: 730px;
 }
 
 .gameover-screen-button {
     margin-inline: 50px;
     height: 40px;
-    width: 130px;
-    background-color: rgba(255, 206, 22, 1) ;
+    width: 140px;
+    background-color: rgba(255, 206, 22, 1);
     border-color: rgba(125, 47, 19, 1);
     border-radius: 16px;
     cursor: pointer;
@@ -62,7 +82,80 @@ canvas {
     font-weight: 800;
     color: rgba(125, 47, 19, 1);
 }
+
 .gameover-screen-button:hover {
+    transform: scale(1.1);
+}
+
+.background-win-screen {
+    position: absolute;
+    height: 480px;
+    width: 720px;
+    background-color: rgba(0, 0, 0, 0.4);
+    margin-top: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.win-screen-button-container {
+    display: flex;
+}
+
+.background-menu-screen {
+    position: absolute;
+    height: 480px;
+    width: 720px;
+    background-color: rgba(0, 0, 0, 0.4);
+    margin-top: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.instruction-text {
+    z-index: 1100;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(221, 215, 189, 0.9);
+    border-radius: 16px;
+    padding: 20px;
+    width: 500px;
+    height: 400px;
+    margin-top: 150px;
+}
+
+.menu-button-ingame-container {
+    position: fixed;
+    top: 325px;
+    z-index: 2000;
+    left: 920px;
+    height: 300px;
+    width: 300px;
+    display: flex;
+    flex-direction: column;
+
+}
+
+.menu-button-ingame {
+    height: 30px;
+    width: 60px;
+    background-color: rgba(255, 206, 22, 1);
+    border-color: rgba(125, 47, 19, 1);
+    border-radius: 16px;
+    cursor: pointer;
+    font-size: 10px;
+    font-weight: 800;
+    color: rgba(125, 47, 19, 1);
+    margin-top: 2px
+}
+
+.menu-button-ingame:hover {
+    cursor: pointer;
     transform: scale(1.1);
 }
 
