@@ -52,6 +52,7 @@ class Endboss extends MovableObject {
 
             } else if (this.isHurt(2)) {
                 this.playAnimation(this.IMAGES_HURT);
+/*                 world.splashSound.play(); */
             } else {
                 this.playAnimation(this.IMAGES_WALKING);
             }

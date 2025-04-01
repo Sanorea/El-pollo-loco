@@ -20,6 +20,9 @@ class World {
     checkCollisionsBossChickenInterval;
     checkCollisionsCoinsInterval;
     checkCollisionsBottlesInterval;
+/*     musicMuted = false;
+    backgroundSound; */
+
 
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d');
@@ -31,6 +34,8 @@ class World {
         this.checkCollisionsCoins();
         this.checkCollisionsBottles();
         this.checkCollisionsBossChicken();
+        this.initAudioData();
+
     }
 
     setWorld() {
@@ -50,6 +55,35 @@ class World {
         }, 20);
     }
 
+    initAudioData() {
+        this.backgroundSound = this.audioGenerator('audio/background-sound.mp3', 0.3, true);
+        this.jumpSound = this.audioGenerator('audio/jump.mp3');
+        this.hurtSound = this.audioGenerator('audio/hurt.mp3');
+        this.coinSound = this.audioGenerator('audio/collect-coins.mp3');
+        this.splashSound = this.audioGenerator('audio/splash.mp3');
+        this.jumpOnChickenSound = this.audioGenerator('audio/collision.mp3');
+        this.throwSound = this.audioGenerator('audio/throw.mp3');
+        this.collectBottleSound = this.audioGenerator('audio/collect-bottle.mp3');
+    }
+
+    audioGenerator(audio, volume = 1.0, loop = false) {
+        let sound = new Audio(audio);
+        sound.preload = "auto";
+        sound.volume = volume;
+        sound.loop = loop;
+        sound.load();
+        return sound;
+    }
+
+/*     audioGenerator(src, vol = 1, loop = false) {
+        let audioData = new Audio(src);
+        audioData.volume = vol;
+        audioData.loop = loop;
+        audioData.preload = "auto";
+        audioData.load();
+        return audioData;
+      } */
+
 
     checkThrowObjects() {
         if (this.keyboard.D) {
@@ -63,6 +97,7 @@ class World {
 
     deadChicken(enemy, enemiePath) {
         enemy.playDeadAnimation();
+        this.jumpOnChickenSound.play();
         this.enemyDespawned (enemy, enemiePath);
     }
 
@@ -94,6 +129,7 @@ class World {
                     this.coinsBar.setPercentage(this.coin.energyCoins);
                     let index = this.level.coins.findIndex(c => c === coin);
                     this.level.coins.splice(index, 1);
+                    world.coinSound.play();
                 }
             });
         }, 20);

@@ -37,10 +37,7 @@ class MovableObject extends DrawableObject {
 
     playAnimationBossChicken(images) {
         let i = this.currentImage % images.length; // let i = 0 % 6; 0, Rest 0 oder i = 1 % 5, Rest 1.... also 0, 1, 2, 3, 4, 5, 0, 1...
-        console.log('i :>> ', i);
-        console.log('images.length :>> ', images.length);
         if (i == images.length-1) {
-            console.log('stop');
             let path = images[i];
             this.img = this.imageCache[path];
 
@@ -48,8 +45,6 @@ class MovableObject extends DrawableObject {
             let path = images[i];
             this.img = this.imageCache[path];
             this.currentImage++;
-            console.log('this.img :>> ', this.img);
-            
         }
 
     }

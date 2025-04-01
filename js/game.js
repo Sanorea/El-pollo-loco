@@ -5,9 +5,6 @@ let keyboard = new Keyboard();
 function init() {
     canvas = document.getElementById('canvas');
     world = new World(canvas, keyboard);
-    //world.level = createLevel();
-    //test();
-    //checkCollisionsJumpOnEnemies();
 }
 
 
@@ -55,13 +52,18 @@ window.addEventListener('keyup', (event) => {
 
 function restart() {
     clearAllIntervals();
+
+    keyboard = new Keyboard(); // Erstellt ein frisches Keyboard-Objekt
     world.level = createLevel();
     canvas = document.getElementById('canvas');
+    world.backgroundSound.pause();
+    world.backgroundSound.currentTime = 0;
     world = new World(canvas, keyboard);
     document.getElementById('gameover-screen').classList.add('d-none');
     document.getElementById('winScreen').classList.add('d-none');
     document.getElementById('menu-screen').classList.add('d-none');
-    document.getElementById('menuButtonGame').classList.remove('d-none');
+    document.getElementById('menuButtonGame').classList.remove('d-none'); 
+    world.backgroundSound.play();
 }
 
 function clearAllIntervals() {
@@ -71,8 +73,6 @@ function clearAllIntervals() {
         clearInterval(i);
     }
 }
-
-
 
 function openMenu() {
     document.getElementById('menu-screen').classList.remove('d-none');
