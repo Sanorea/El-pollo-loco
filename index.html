@@ -25,7 +25,7 @@
     <script src="models/level.class.js"></script>
     <script src="models/endboss.class.js"></script>
     <script src="models/throwable-object.class.js"></script>
-    <script src="levels/level1.js"></script>                                                                                                                                                                                                                                                             
+    <script src="levels/level1.js"></script>
     <script src="models/world.class.js"></script>
     <script src="js/sound-manager.js"></script>
     <script src="js/game.js"></script>
@@ -43,17 +43,21 @@
         </div>
         <div>
             <div>
-                <button onclick="muteBackgroundMusic()" id="soundOff" class="gameover-screen-button d-none">Unmute</button>
-                <button onclick="muteBackgroundMusic()" id="soundOn" class="gameover-screen-button">Mute</button>
+                <img src="icons/musicOff.svg" alt="" onclick="muteBackgroundMusic()" id="soundOff"
+                    class="gameover-screen-button d-none">
+                <img src="icons/musicOn.svg" alt="" onclick="muteBackgroundMusic()" id="soundOn"
+                    class="gameover-screen-button">
             </div>
             <div>
-                <button onclick="muteSounds()" id="soundEffectOff" class="gameover-screen-button d-none">UnmuteSounds</button>
-                <button onclick="muteSounds()" id="soundEffectOn" class="gameover-screen-button">MuteSounds</button>
+                <img src="icons/soundOff.svg" alt="" onclick="muteSounds()" id="soundEffectOff"
+                    class="gameover-screen-button d-none">
+                <img src="icons/soundOn.svg" alt="" onclick="muteSounds()" id="soundEffectOn"
+                    class="gameover-screen-button">
             </div>
         </div>
     </div>
 
-    
+
     <div id="gameover-screen" class="overlay d-none">
         <img class="gameover-img" src="img/9_intro_outro_screens/game_over/game over.png" alt="">
         <div class="gameover-screen-button-container">

@@ -28,7 +28,6 @@ function muteBackgroundMusic() {
 
 function muteSounds() {
     world.audioMuted = !world.audioMuted;
-
     const allSounds = [
         world.jumpSound,
         world.hurtSound,
@@ -41,9 +40,16 @@ function muteSounds() {
         world.loseSound,
         world.snoreSound,
     ];
-
     allSounds.forEach(sound => {
         sound.muted = world.audioMuted;
     });
+    if (world.audioMuted) {
+        document.getElementById('soundEffectOn').classList.add('d-none');
+        document.getElementById('soundEffectOff').classList.remove('d-none');
+    } else {
+        document.getElementById('soundEffectOn').classList.remove('d-none');
+        document.getElementById('soundEffectOff').classList.add('d-none');
+    };
     document.activeElement.blur();
 }
+

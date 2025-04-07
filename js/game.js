@@ -4,37 +4,9 @@ let keyboard = new Keyboard();
 
 function init() {
     canvas = document.getElementById('canvas');
-    //world = new World(canvas, keyboard);
     window.addEventListener('keydown', handleKeyDown);
     window.addEventListener('keyup', handleKeyUp);
 }
-
-
-/*     function restart() {
-        clearAllIntervals();
-        keyboard = new Keyboard();
-        canvas = document.getElementById('canvas');
-    
-        if (world && world.backgroundSound) {
-            world.backgroundSound.pause();
-            world.backgroundSound.currentTime = 0;
-        }
-    
-        let audioMuted = world?.audioMuted || false;
-
-        world = new World(canvas, keyboard);
-        world.audioMuted = audioMuted;
-        world.level = createLevel();
-    
-        document.getElementById('gameover-screen').classList.add('d-none');
-        document.getElementById('winScreen').classList.add('d-none');
-        document.getElementById('menu-screen').classList.add('d-none');
-        document.getElementById('menuButtonGame').classList.remove('d-none');
-    
-        world.backgroundSound.play();
-        playButtonSound();
-        document.activeElement.blur();
-    } */
 
 function restart() {
     cleanGame();
@@ -50,8 +22,6 @@ function cleanGame() {
     keyboard = new Keyboard();
     canvas = document.getElementById('canvas');
 }
-
-
 
 function clearAllIntervals() {
     let highesTimeoutId = setTimeout(() => { }); // Holt die höchste Timeout-ID
@@ -81,14 +51,11 @@ function resetWorld(audioMuted) {
     world.level = createLevel();
 }
 
-
-
 function handleMuteStatusSounds(audioMuted, musicPaused) {
     loadSoundsStatus(audioMuted);
     setSoundsStatus(musicPaused);
     toggleSoundButton(audioMuted);
 }
-
 
 function loadSoundsStatus(audioMuted) {
     const effectSounds = [
@@ -108,7 +75,6 @@ function loadSoundsStatus(audioMuted) {
     });
 }
 
-
 function setSoundsStatus(musicPaused) {
     // 🎵 Musikzustand wiederherstellens
     if (musicPaused) {
@@ -127,9 +93,6 @@ function toggleSoundButton(audioMuted) {
     document.getElementById('soundEffectOff').classList.toggle('d-none', !audioMuted);
 }
 
-
-
-
 function cleanUI() {
     // 👇 Restliches UI aufräumen
     document.getElementById('gameover-screen').classList.add('d-none');
@@ -139,12 +102,10 @@ function cleanUI() {
     document.activeElement.blur();
 }
 
-
 function checkMuteButtonSound() {
     // 🛎 Button-Sound nur bei aktivem Effekt-Ton
     if (!world.audioMuted) playButtonSound();
 }
-
 
 let spaceReleased = true; // Verhindert mehrfaches Restart-Auslösen
 
