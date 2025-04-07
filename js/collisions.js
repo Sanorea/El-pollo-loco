@@ -1,4 +1,5 @@
 world;
+let lastJumpOnEnemy = 0;
 
 
 
@@ -17,9 +18,12 @@ function defineResultCollisionsEnemies(world, e, enemiePath) {
 
 function checkCollisionsJumpOnEnemies(world, enemy, enemiePath) {
     let feetOfCharacter = world.character.y + world.character.height;
-    let headOfChicken = enemy.y + (enemy.height * 0.6);
-    if (feetOfCharacter <= headOfChicken) {
+    let headOfChicken = enemy.y + (enemy.height * 0.6); 
+    /* console.log("Feet:", feetOfCharacter, "Head:", headOfChicken, "SpeedY:", world.character.speedY); */
+    if (feetOfCharacter <= headOfChicken && world.character.speedY <= 0) {
+        lastJumpOnEnemy = new Date().getTime();
         world.deadChicken(enemy, enemiePath);
+
     }
 }
 
@@ -30,15 +34,16 @@ function isColliding(character, enemy) {
         character.y < enemy.y + enemy.height;
 }
 
-function checkCollisions() {
+function checkCollisions(world) {
+    let actuellTime = new Date().getTime();
     world.level.enemies.forEach((enemy) => {
-        if (world.character.isColliding(enemy)) {
+        if (world.character.isColliding(enemy) && actuellTime - lastJumpOnEnemy > 1500) {
             world.character.hit(5);
             world.statusBar.setPercentage(world.character.energy);
         }
     });
     world.level.smallEnemies.forEach((enemy) => {
-        if (world.character.isColliding(enemy)) {
+        if (world.character.isColliding(enemy) && actuellTime - lastJumpOnEnemy > 600) {
             world.character.hit(5);
             world.statusBar.setPercentage(world.character.energy);
         }

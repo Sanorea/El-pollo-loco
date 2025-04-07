@@ -43,8 +43,11 @@ class World {
     }
 
     run() {
+        setInterval(() => {
+            checkCollisions(world);
+        }, 500);
         this.checkCollisionsThrowBottlesInterval = setInterval(() => {
-            checkCollisions();
+
             if (this.bottle.energyBottles > 0) {
                 this.checkThrowObjects();
                 this.bottlesBarRefresh();
@@ -64,6 +67,10 @@ class World {
         this.jumpOnChickenSound = this.audioGenerator('audio/collision.mp3');
         this.throwSound = this.audioGenerator('audio/throw.mp3');
         this.collectBottleSound = this.audioGenerator('audio/collect-bottle.mp3');
+        this.winSound = this.audioGenerator('audio/win-sound.mp3');
+        this.loseSound = this.audioGenerator('audio/lose-sound.mp3');
+        this.buttonSound = this.audioGenerator('audio/button.mp3');
+        this.snoreSound = this.audioGenerator('audio/snore.mp3');
     }
 
     audioGenerator(audio, volume = 1.0, loop = false) {
@@ -74,15 +81,6 @@ class World {
         sound.load();
         return sound;
     }
-
-/*     audioGenerator(src, vol = 1, loop = false) {
-        let audioData = new Audio(src);
-        audioData.volume = vol;
-        audioData.loop = loop;
-        audioData.preload = "auto";
-        audioData.load();
-        return audioData;
-      } */
 
 
     checkThrowObjects() {
@@ -99,6 +97,7 @@ class World {
         enemy.playDeadAnimation();
         this.jumpOnChickenSound.play();
         this.enemyDespawned (enemy, enemiePath);
+        this.character.speedY = 20; // jump when collide with enemy
     }
 
     enemyDespawned(enemy, enemiePath) {

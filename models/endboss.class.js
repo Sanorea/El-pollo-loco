@@ -43,6 +43,7 @@ class Endboss extends MovableObject {
         this.bossAnimationInterval = setInterval(() => {
             if (this.isDead()) {
                 this.playAnimationBossChicken(this.IMAGES_DEAD);
+                world.winSound.play();
                 //clearIntervals();
                 this.bossAnimationTimeout = setTimeout(() => {
                     document.getElementById('winScreen').classList.remove('d-none');

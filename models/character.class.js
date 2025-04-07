@@ -123,9 +123,8 @@ class Character extends MovableObject {
 
         this.animationInterval = setInterval(() => {
             if (this.isDead()) {
-  
-
                 this.playAnimation(this.IMAGES_DEAD);
+
                 setTimeout(() => {
                     let gameoverScreen = document.getElementById('gameover-screen');
                     document.getElementById('menuButtonGame').classList.add('d-none');
@@ -133,7 +132,6 @@ class Character extends MovableObject {
                 }, 1500);
                 this.y -= this.deadSpeedY;
                 this.deadSpeedY -= this.acceleration + 4;
-
             } else if (this.isHurt(1)) {
                 this.playAnimation(this.IMAGES_HURT);
                 world.hurtSound.play();
