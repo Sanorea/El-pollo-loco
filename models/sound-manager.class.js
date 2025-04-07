@@ -17,6 +17,16 @@ class SoundManager {
         this.world.backgroundSound = this.audioGenerator('background-sound.mp3', 0.2, true);
     }
 
+    audioGenerator(audioFileName, volume = 1.0, loop = false) {
+        const audioPath = `../../audio/${audioFileName}`;
+        let sound = new Audio(audioPath);
+        sound.preload = "auto";
+        sound.volume = volume;
+        sound.loop = loop;
+        sound.load();
+        return sound;
+    }
+
     playButtonSoundIfNotMuted() {
         if (!this.world.audioMuted) {
             let buttonSound = this.audioGenerator('button.mp3');
@@ -24,6 +34,7 @@ class SoundManager {
         }
     }
 
+    //speichert mute Status der Sound's
     applyMuteStateToEffects(audioMuted) {
         const allSounds = [
             this.world.jumpSound,
@@ -43,6 +54,7 @@ class SoundManager {
         });
     }
 
+    //speichert mute Status der music
     applyBackgroundMusicState(paused) {
         const bgSound = this.world.backgroundSound;
         if (!bgSound) return;
@@ -58,14 +70,5 @@ class SoundManager {
         }
     }
 
-    audioGenerator(audioFileName, volume = 1.0, loop = false) {
-        const audioPath = `../../audio/${audioFileName}`;
-        let sound = new Audio(audioPath);
-        sound.preload = "auto";
-        sound.volume = volume;
-        sound.loop = loop;
-        sound.load();
-        return sound;
-    }
-    
+
 }
