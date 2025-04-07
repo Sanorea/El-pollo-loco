@@ -1,32 +1,35 @@
 let canvas;
 let world;
 let keyboard = new Keyboard();
+let soundManager;
 
 function init() {
     canvas = document.getElementById('canvas');
-    //world = new World(canvas, keyboard);
     window.addEventListener('keydown', handleKeyDown);
     window.addEventListener('keyup', handleKeyUp);
 }
 
 
+
 function restart() {
-    world = new World(canvas, keyboard);
-    clearAllIntervals();
-    keyboard = new Keyboard(); // Erstellt ein frisches Keyboard-Objekt
-    world.level = createLevel();
-    canvas = document.getElementById('canvas');
-    world.backgroundSound.pause();
-    world.backgroundSound.currentTime = 0;
-    world = new World(canvas, keyboard);
-    document.getElementById('gameover-screen').classList.add('d-none');
-    document.getElementById('winScreen').classList.add('d-none');
-    document.getElementById('menu-screen').classList.add('d-none');
-    document.getElementById('menuButtonGame').classList.remove('d-none');
-    world.backgroundSound.play();
-    world.buttonSound.play();
-    document.activeElement.blur(); //entzieht dem gedrückten Knopf den Fokus
+    cleanGame();
+    let { audioMuted, musicPaused } = handleMuteStatusMusic();
+    resetWorld(audioMuted);
+    soundManager = new SoundManager(world);
+    soundManager.initSounds();
+
+    applySoundStates(audioMuted, musicPaused);
+    cleanUI();
+    soundManager.playButtonSoundIfNotMuted();
 }
+
+function cleanGame() {
+    clearAllIntervals();
+    keyboard = new Keyboard();
+    canvas = document.getElementById('canvas');
+}
+
+
 
 function clearAllIntervals() {
     let highesTimeoutId = setTimeout(() => { }); // Holt die höchste Timeout-ID
@@ -35,6 +38,57 @@ function clearAllIntervals() {
         clearInterval(i);
     }
 }
+
+function applySoundStates(audioMuted, musicPaused) {
+    soundManager.applyMuteStateToEffects(audioMuted);
+    soundManager.applyBackgroundMusicState(musicPaused);
+}
+
+function muteBackgroundMusic() {
+    if (!world?.backgroundSound) return;
+
+    const isPaused = world.backgroundSound.paused;
+    isPaused ? world.backgroundSound.play() : world.backgroundSound.pause();
+    soundManager.applyBackgroundMusicState(!isPaused);
+    document.activeElement.blur();
+}
+
+function muteSounds() {
+    world.audioMuted = !world.audioMuted;
+    soundManager.applyMuteStateToEffects(world.audioMuted);
+    document.activeElement.blur();
+}
+
+
+ function handleMuteStatusMusic() {
+    // 🧠 Merke dir den aktuellen Mute-Zustand
+    let audioMuted = world?.audioMuted || false;
+    let musicPaused = world?.backgroundSound?.paused || false;
+
+    // 🧹 Vorherige Musik stoppen
+    if (world && world.backgroundSound) {
+        world.backgroundSound.pause();
+        world.backgroundSound.currentTime = 0;
+    }
+    return { audioMuted, musicPaused }
+} 
+
+function resetWorld(audioMuted) {
+    // 🌍 Neues World-Objekt erzeugen
+    world = new World(canvas, keyboard);
+    world.audioMuted = audioMuted;
+    world.level = createLevel();
+}
+
+function cleanUI() {
+    // 👇 Restliches UI aufräumen
+    document.getElementById('gameover-screen').classList.add('d-none');
+    document.getElementById('winScreen').classList.add('d-none');
+    document.getElementById('menu-screen').classList.add('d-none');
+    document.getElementById('menuButtonGame').classList.remove('d-none');
+    document.activeElement.blur();
+}
+
 
 let spaceReleased = true; // Verhindert mehrfaches Restart-Auslösen
 
@@ -69,17 +123,17 @@ function openMenu() {
     document.getElementById('instruction-screen').classList.add('d-none');
     document.getElementById('setting-screen').classList.add('d-none');
     document.getElementById('menuButtonGame').classList.add('d-none');
-    world.buttonSound.play();
+    playButtonSound();
 }
 
 function openInstructions() {
     document.getElementById('menu-screen').classList.add('d-none');
     document.getElementById('instruction-screen').classList.remove('d-none');
-    world.buttonSound.play();
+    playButtonSound();
 }
 
 function openSettings() {
     document.getElementById('menu-screen').classList.add('d-none');
     document.getElementById('setting-screen').classList.remove('d-none');
-    world.buttonSound.play();
+    playButtonSound();
 }

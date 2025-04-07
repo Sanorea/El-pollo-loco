@@ -20,6 +20,9 @@ class World {
     checkCollisionsBossChickenInterval;
     checkCollisionsCoinsInterval;
     checkCollisionsBottlesInterval;
+    audioMuted;
+    soundManager;
+
 /*     musicMuted = false;
     backgroundSound; */
 
@@ -28,6 +31,7 @@ class World {
         this.ctx = canvas.getContext('2d');
         this.canvas = canvas;    
         this.keyboard = keyboard;
+        this.audioMuted = false;
         this.draw();
         this.setWorld();
         this.run();
@@ -69,7 +73,6 @@ class World {
         this.collectBottleSound = this.audioGenerator('audio/collect-bottle.mp3');
         this.winSound = this.audioGenerator('audio/win-sound.mp3');
         this.loseSound = this.audioGenerator('audio/lose-sound.mp3');
-        this.buttonSound = this.audioGenerator('audio/button.mp3');
         this.snoreSound = this.audioGenerator('audio/snore.mp3');
     }
 
@@ -82,7 +85,6 @@ class World {
         return sound;
     }
 
-
     checkThrowObjects() {
         if (this.keyboard.D) {
             this.defineDirectionThrowableObject();
@@ -90,8 +92,6 @@ class World {
             this.throwableObjects.push(bottle);
         }
     }
-
-
 
     deadChicken(enemy, enemiePath) {
         enemy.playDeadAnimation();

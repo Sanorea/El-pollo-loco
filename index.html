@@ -27,6 +27,7 @@
     <script src="models/throwable-object.class.js"></script>
     <script src="levels/level1.js"></script>                                                                                                                                                                                                                                                             
     <script src="models/world.class.js"></script>
+    <script src="models/sound-manager.class.js"></script>
     <script src="js/game.js"></script>
     <script src="js/collisions.js"></script>
 </head>
@@ -39,6 +40,16 @@
         <div class="gameover-screen-button-container">
             <button onclick="restart()" class="gameover-screen-button">Restart</button>
             <button onclick="openMenu()" class="gameover-screen-button">Menu</button>
+        </div>
+        <div>
+            <div>
+                <button onclick="muteBackgroundMusic()" id="soundOff" class="gameover-screen-button d-none">Unmute</button>
+                <button onclick="muteBackgroundMusic()" id="soundOn" class="gameover-screen-button">Mute</button>
+            </div>
+            <div>
+                <button onclick="muteSounds()" id="soundEffectOff" class="gameover-screen-button d-none">UnmuteSounds</button>
+                <button onclick="muteSounds()" id="soundEffectOn" class="gameover-screen-button">MuteSounds</button>
+            </div>
         </div>
     </div>
 
