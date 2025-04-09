@@ -2,19 +2,19 @@ function createLevel() {
     return new level(
     [
         new Chicken(),
+/*         new Chicken(),
         new Chicken(),
         new Chicken(),
         new Chicken(),
-        new Chicken(),
-        new Chicken()
+        new Chicken() */
     ],
     [
         new SmallChicken(),
+/*         new SmallChicken(),
         new SmallChicken(),
         new SmallChicken(),
         new SmallChicken(),
-        new SmallChicken(),
-        new SmallChicken()
+        new SmallChicken() */
     ],
     [
         new Cloud()

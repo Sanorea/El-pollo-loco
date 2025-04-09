@@ -11,16 +11,21 @@ function init() {
 }
 
 function restart() {
-    // 🔉 Merke dir vorher die Lautstärke!
-  
     const currentMusicVolume = soundManager.backgroundMusic.volume;
     const currentSoundVolume = soundManager.soundSample.volume;
     const currentMusicMuteStatus = soundManager.backgroundMusic.paused;
 
     cleanGame();
-    let { soundMuted, musicPaused } = soundManager.handleMuteStatusMusic();
-    resetWorld(soundMuted, musicPaused);
-    soundManager.handleMuteStatusSounds(soundMuted, musicPaused);
+    
+    //console.log('restart0 :>> ', currentSoundMuteStatus);
+
+    let { musicMuted, soundMuted } = soundManager.handleMuteStatusMusic();
+    //soundManager.handleMuteStatusSounds(musicMuted, soundMuted);
+
+    console.log('restart1 :>> ', soundMuted);
+    resetWorld(musicMuted, soundMuted);
+    soundManager.handleMuteStatusSounds(musicMuted, soundMuted);
+
     cleanUI();
     soundManager.checkMuteButtonSound();
 
@@ -41,7 +46,7 @@ function restart() {
         soundManager.snoreSound,
 
     ];
-
+    console.log('restart2 :>> ', soundMuted);
     allSounds.forEach(sound => {
         sound.volume = currentSoundVolume;
     });
@@ -53,6 +58,8 @@ function restart() {
     } else {
         soundManager.backgroundMusic.play();
     }
+
+    console.log('restart3 :>> ', soundMuted);
 }
 
 
@@ -70,11 +77,11 @@ function clearAllIntervals() {
     }
 }
 
-function resetWorld(soundMuted, musicPaused) {
+function resetWorld(musicMuted, soundMuted) {
     // 🌍 Neues World-Objekt erzeugen
     world = new World(canvas, keyboard);
     soundManager.soundMuted = soundMuted;
-    soundManager.musicPaused = musicPaused;
+    soundManager.musicMuted = musicMuted;
     world.level = createLevel();
 }
 
