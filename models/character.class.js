@@ -114,7 +114,7 @@ class Character extends MovableObject {
             }
             if (this.world.keyboard.SPACE && !this.isAboveGround()) { // das ! bedeutet NICHT
                 this.jump();
-                world.jumpSound.play();
+                soundManager.jumpSound.play();
                 this.lastMoveTime = new Date().getTime();
             }
             this.world.camera_x = -this.x + 100;
@@ -134,7 +134,7 @@ class Character extends MovableObject {
                 this.deadSpeedY -= this.acceleration + 4;
             } else if (this.isHurt(1)) {
                 this.playAnimation(this.IMAGES_HURT);
-                world.hurtSound.play();
+                soundManager.hurtSound.play();
             } else if (this.isAboveGround()) {
                 this.playAnimation(this.IMAGES_JUMPING);
             } else {

@@ -20,26 +20,19 @@ class World {
     checkCollisionsBossChickenInterval;
     checkCollisionsCoinsInterval;
     checkCollisionsBottlesInterval;
-    audioMuted;
     soundManager;
-
-/*     musicMuted = false;
-    backgroundSound; */
 
 
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d');
         this.canvas = canvas;    
         this.keyboard = keyboard;
-        this.audioMuted = false;
         this.draw();
         this.setWorld();
         this.run();
         this.checkCollisionsCoins();
         this.checkCollisionsBottles();
         this.checkCollisionsBossChicken();
-        this.initAudioData();
-
     }
 
     setWorld() {
@@ -62,8 +55,6 @@ class World {
         }, 20);
     }
 
-
-
     checkThrowObjects() {
         if (this.keyboard.D) {
             this.defineDirectionThrowableObject();
@@ -74,7 +65,7 @@ class World {
 
     deadChicken(enemy, enemiePath) {
         enemy.playDeadAnimation();
-        this.jumpOnChickenSound.play();
+        soundManager.jumpOnChickenSound.play();
         this.enemyDespawned (enemy, enemiePath);
         this.character.speedY = 20; // jump when collide with enemy
     }
@@ -99,8 +90,6 @@ class World {
         }, 400);
     }
 
-
-
     checkCollisionsCoins() {
         this.checkCollisionsCoinsInterval = setInterval(() => {
             this.level.coins.forEach((coin) => {
@@ -109,11 +98,10 @@ class World {
                     this.coinsBar.setPercentage(this.coin.energyCoins);
                     let index = this.level.coins.findIndex(c => c === coin);
                     this.level.coins.splice(index, 1);
-                    world.coinSound.play();
+                    soundManager.coinSound.play();
                 }
             });
         }, 20);
-
     }
 
     bottlesBarRefresh() {
@@ -135,21 +123,6 @@ class World {
             });
         }, 20);
     }
-
-    initAudioData() {
-        this.jumpSound = audioGenerator('audio/jump.mp3');
-        this.hurtSound = audioGenerator('audio/hurt.mp3');
-        this.coinSound = audioGenerator('audio/collect-coins.mp3');
-        this.splashSound = audioGenerator('audio/splash.mp3');
-        this.jumpOnChickenSound = audioGenerator('audio/collision.mp3');
-        this.throwSound = audioGenerator('audio/throw.mp3');
-        this.collectBottleSound = audioGenerator('audio/collect-bottle.mp3');
-        this.winSound = audioGenerator('audio/win-sound.mp3');
-        this.loseSound = audioGenerator('audio/lose-sound.mp3');
-        this.snoreSound = audioGenerator('audio/snore.mp3');
-    };
-    
-
 
     draw() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height); //löscht frühere Standorte der Elemente bei jedem neuen zeichnen

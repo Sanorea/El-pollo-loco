@@ -32,7 +32,7 @@ throwCollectedBottles() {
 
 hitBottles() {
     this.energyBottles += 21;
-    world.collectBottleSound.play();
+    soundManager.collectBottleSound.play();
 }
 
 

@@ -25,9 +25,9 @@
     <script src="models/level.class.js"></script>
     <script src="models/endboss.class.js"></script>
     <script src="models/throwable-object.class.js"></script>
+    <script src="models/sound-manager.class.js"></script>
     <script src="levels/level1.js"></script>
     <script src="models/world.class.js"></script>
-    <script src="js/sound-manager.js"></script>
     <script src="js/game.js"></script>
     <script src="js/collisions.js"></script>
 </head>
@@ -43,16 +43,16 @@
         </div>
         <div>
             <div>
-                <img src="icons/musicOff.svg" alt="" onclick="SoundManager.toggleMusic();" id="soundOff"
+                <img src="icons/musicOff.svg" alt="" onclick="soundManager.toggleMusic();" id="soundOffInGame"
                     class="gameover-screen-button d-none">
-                <img src="icons/musicOn.svg" alt="" onclick="SoundManager.toggleMusic();" id="soundOn"
+                <img src="icons/musicOn.svg" alt="" onclick="soundManager.toggleMusic();" id="soundOnInGame"
                     class="gameover-screen-button">
 
             </div>
             <div>
-                <img src="icons/soundOff.svg" alt="" onclick="muteSounds()" id="soundEffectOff"
+                <img src="icons/soundOff.svg" alt="" onclick="soundManager.muteSounds()" id="soundEffectOffInGame"
                     class="gameover-screen-button d-none">
-                <img src="icons/soundOn.svg" alt="" onclick="muteSounds()" id="soundEffectOn"
+                <img src="icons/soundOn.svg" alt="" onclick="soundManager.muteSounds()" id="soundEffectOnInGame"
                     class="gameover-screen-button">
             </div>
         </div>
@@ -105,18 +105,18 @@
                 <div>
 
                     <div>
-                        <img src="icons/musicOff.svg" alt="" onclick="muteBackgroundMusic()" id="soundOff"
+                        <img src="icons/musicOff.svg" alt="" onclick="soundManager.muteBackgroundMusic()" id="soundOff"
                             class="gameover-screen-button d-none">
-                        <img src="icons/musicOn.svg" alt="" onclick="muteBackgroundMusic()" id="soundOn"
+                        <img src="icons/musicOn.svg" alt="" onclick="soundManager.muteBackgroundMusic()" id="soundOn"
                             class="gameover-screen-button">
                     </div>
                     <input type="range" id="musicVolume" min="0" max="1" step="0.01" value="1">
                 </div>
                 <div>
                     <div>
-                        <img src="icons/soundOff.svg" alt="" onclick="muteSounds()" id="soundEffectOff"
+                        <img src="icons/soundOff.svg" alt="" onclick="soundManager.muteSounds()" id="soundEffectOff"
                             class="gameover-screen-button d-none">
-                        <img src="icons/soundOn.svg" alt="" onclick="muteSounds()" id="soundEffectOn"
+                        <img src="icons/soundOn.svg" alt="" onclick="soundManager.muteSounds()" id="soundEffectOn"
                             class="gameover-screen-button">
                     </div>
                     <input type="range" id="soundVolume" min="0" max="1" step="0.01" value="1">

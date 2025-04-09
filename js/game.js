@@ -1,49 +1,57 @@
 let canvas;
 let world;
 let keyboard = new Keyboard();
+let soundManager;
 
 function init() {
     canvas = document.getElementById('canvas');
     window.addEventListener('keydown', handleKeyDown);
     window.addEventListener('keyup', handleKeyUp);
-
+    soundManager = new Sounds();
 }
 
 function restart() {
     // 🔉 Merke dir vorher die Lautstärke!
-    const currentMusicVolume = SoundManager.backgroundMusic.volume;
-    const currentSoundVolume = SoundManager.soundSample.volume;
+  
+    const currentMusicVolume = soundManager.backgroundMusic.volume;
+    const currentSoundVolume = soundManager.soundSample.volume;
+    const currentMusicMuteStatus = soundManager.backgroundMusic.paused;
 
     cleanGame();
-    let { audioMuted, musicPaused } = handleMuteStatusMusic();
-    resetWorld(audioMuted);
-    handleMuteStatusSounds(audioMuted, musicPaused);
+    let { soundMuted, musicPaused } = soundManager.handleMuteStatusMusic();
+    resetWorld(soundMuted, musicPaused);
+    soundManager.handleMuteStatusSounds(soundMuted, musicPaused);
     cleanUI();
-    checkMuteButtonSound();
+    soundManager.checkMuteButtonSound();
 
     // 🔉 Stelle Lautstärke nach dem Reset wieder her
-    SoundManager.setVolume(currentMusicVolume);
-    SoundManager.musicSample.volume = currentMusicVolume;
+    soundManager.setVolume(currentMusicVolume);
+    soundManager.musicSample.volume = currentMusicVolume;
 
     const allSounds = [
-        world.jumpSound,
-        world.hurtSound,
-        world.coinSound,
-        world.splashSound,
-        world.jumpOnChickenSound,
-        world.throwSound,
-        world.collectBottleSound,
-        world.winSound,
-        world.loseSound,
-        world.snoreSound,
+        soundManager.jumpSound,
+        soundManager.hurtSound,
+        soundManager.coinSound,
+        soundManager.splashSound,
+        soundManager.jumpOnChickenSound,
+        soundManager.throwSound,
+        soundManager.collectBottleSound,
+        soundManager.winSound,
+        soundManager.loseSound,
+        soundManager.snoreSound,
+
     ];
+
     allSounds.forEach(sound => {
         sound.volume = currentSoundVolume;
     });
-    SoundManager.soundSample.volume = currentSoundVolume;
+    soundManager.soundSample.volume = currentSoundVolume;
 
-    if (!musicPaused && !world.audioMuted) {
-        SoundManager.backgroundMusic.play().catch(e => console.warn('Audio start blocked:', e));
+    if (currentMusicMuteStatus) {
+
+        soundManager.backgroundMusic.pause();
+    } else {
+        soundManager.backgroundMusic.play();
     }
 }
 
@@ -62,68 +70,14 @@ function clearAllIntervals() {
     }
 }
 
-function handleMuteStatusMusic() {
-    // 🧠 Merke dir den aktuellen Mute-Zustand
-    let audioMuted = world?.audioMuted || false;
-    let musicPaused = world?.backgroundSound?.paused || false;
-
-    // 🧹 Vorherige Musik stoppen
-    if (world && world.backgroundSound) {
-        world.backgroundSound.pause();
-        world.backgroundSound.currentTime = 0;
-    }
-    return { audioMuted, musicPaused }
-}
-
-function resetWorld(audioMuted) {
+function resetWorld(soundMuted, musicPaused) {
     // 🌍 Neues World-Objekt erzeugen
     world = new World(canvas, keyboard);
-    world.audioMuted = audioMuted;
+    soundManager.soundMuted = soundMuted;
+    soundManager.musicPaused = musicPaused;
     world.level = createLevel();
 }
 
-
-function handleMuteStatusSounds(audioMuted, musicPaused) {
-    loadSoundsStatus(audioMuted);
-    setSoundsStatus(musicPaused);
-    toggleSoundButton(audioMuted);
-}
-
-function loadSoundsStatus(audioMuted) {
-    const effectSounds = [
-        world.jumpSound,
-        world.hurtSound,
-        world.coinSound,
-        world.splashSound,
-        world.jumpOnChickenSound,
-        world.throwSound,
-        world.collectBottleSound,
-        world.winSound,
-        world.loseSound,
-        world.snoreSound,
-    ];
-    effectSounds.forEach(sound => {
-        sound.muted = audioMuted;
-    });
-}
-
-function setSoundsStatus(musicPaused) {
-    // 🎵 Musikzustand wiederherstellens
-    if (musicPaused) {
-        SoundManager.backgroundMusic.pause();
-        document.getElementById('soundOn').classList.add('d-none');
-        document.getElementById('soundOff').classList.remove('d-none');
-    } else {
-        SoundManager.backgroundMusic.play();
-        document.getElementById('soundOn').classList.remove('d-none');
-        document.getElementById('soundOff').classList.add('d-none');
-    }
-}
-
-function toggleSoundButton(audioMuted) {
-    document.getElementById('soundEffectOn').classList.toggle('d-none', audioMuted);
-    document.getElementById('soundEffectOff').classList.toggle('d-none', !audioMuted);
-}
 
 function cleanUI() {
     // 👇 Restliches UI aufräumen
@@ -134,24 +88,12 @@ function cleanUI() {
     document.activeElement.blur();
 }
 
-function checkMuteButtonSound() {
-    if (!world || !world.audioMuted) SoundManager.playButtonSound();
-}
-
-
-let spaceReleased = true; // Verhindert mehrfaches Restart-Auslösen
-
 function handleKeyDown(event) {
     if (event.keyCode == 39) keyboard.RIGHT = true;
     if (event.keyCode == 37) keyboard.LEFT = true;
     if (event.keyCode == 38) keyboard.UP = true;
     if (event.keyCode == 40) keyboard.DOWN = true;
-    if (event.keyCode == 32) {
-        if (spaceReleased) {
-            keyboard.SPACE = true;
-            spaceReleased = false; // Blockiert wiederholtes Starten
-        }
-    }
+    if (event.keyCode == 32) keyboard.SPACE = true;
     if (event.keyCode == 68) keyboard.D = true;
 }
 
@@ -160,10 +102,7 @@ function handleKeyUp(event) {
     if (event.keyCode == 37) keyboard.LEFT = false;
     if (event.keyCode == 38) keyboard.UP = false;
     if (event.keyCode == 40) keyboard.DOWN = false;
-    if (event.keyCode == 32) {
-        keyboard.SPACE = false;
-        spaceReleased = true; // Erlaubt neues Drücken nach dem Loslassen
-    }
+    if (event.keyCode == 32) keyboard.SPACE = false;
     if (event.keyCode == 68) keyboard.D = false;
 }
 
@@ -172,20 +111,20 @@ function openMenu() {
     document.getElementById('instruction-screen').classList.add('d-none');
     document.getElementById('setting-screen').classList.add('d-none');
     document.getElementById('menuButtonGame').classList.add('d-none');
-    SoundManager.playButtonSound();
+    soundManager.playButtonSound();
 }
 
 function openInstructions() {
     document.getElementById('menu-screen').classList.add('d-none');
     document.getElementById('instruction-screen').classList.remove('d-none');
-    SoundManager.playButtonSound();
+    soundManager.playButtonSound();
 
 }
 
 function openSettings() {
     document.getElementById('menu-screen').classList.add('d-none');
     document.getElementById('setting-screen').classList.remove('d-none');
-    SoundManager.playButtonSound();
-    sliderSounds();
+    soundManager.playButtonSound();
+    soundManager.sliderSounds();
 
 }
