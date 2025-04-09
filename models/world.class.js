@@ -62,28 +62,7 @@ class World {
         }, 20);
     }
 
-    initAudioData() {
-        this.backgroundSound = this.audioGenerator('audio/background-sound.mp3', 0.3, true);
-        this.jumpSound = this.audioGenerator('audio/jump.mp3');
-        this.hurtSound = this.audioGenerator('audio/hurt.mp3');
-        this.coinSound = this.audioGenerator('audio/collect-coins.mp3');
-        this.splashSound = this.audioGenerator('audio/splash.mp3');
-        this.jumpOnChickenSound = this.audioGenerator('audio/collision.mp3');
-        this.throwSound = this.audioGenerator('audio/throw.mp3');
-        this.collectBottleSound = this.audioGenerator('audio/collect-bottle.mp3');
-        this.winSound = this.audioGenerator('audio/win-sound.mp3');
-        this.loseSound = this.audioGenerator('audio/lose-sound.mp3');
-        this.snoreSound = this.audioGenerator('audio/snore.mp3');
-    }
 
-    audioGenerator(audio, volume = 1.0, loop = false) {
-        let sound = new Audio(audio);
-        sound.preload = "auto";
-        sound.volume = volume;
-        sound.loop = loop;
-        sound.load();
-        return sound;
-    }
 
     checkThrowObjects() {
         if (this.keyboard.D) {
@@ -120,6 +99,8 @@ class World {
         }, 400);
     }
 
+
+
     checkCollisionsCoins() {
         this.checkCollisionsCoinsInterval = setInterval(() => {
             this.level.coins.forEach((coin) => {
@@ -154,6 +135,20 @@ class World {
             });
         }, 20);
     }
+
+    initAudioData() {
+        this.jumpSound = audioGenerator('audio/jump.mp3');
+        this.hurtSound = audioGenerator('audio/hurt.mp3');
+        this.coinSound = audioGenerator('audio/collect-coins.mp3');
+        this.splashSound = audioGenerator('audio/splash.mp3');
+        this.jumpOnChickenSound = audioGenerator('audio/collision.mp3');
+        this.throwSound = audioGenerator('audio/throw.mp3');
+        this.collectBottleSound = audioGenerator('audio/collect-bottle.mp3');
+        this.winSound = audioGenerator('audio/win-sound.mp3');
+        this.loseSound = audioGenerator('audio/lose-sound.mp3');
+        this.snoreSound = audioGenerator('audio/snore.mp3');
+    };
+    
 
 
     draw() {
