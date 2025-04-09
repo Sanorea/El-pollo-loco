@@ -27,6 +27,7 @@ function muteBackgroundMusic() {
 }
 
 function muteSounds() {
+    console.log('world1 :>> ', world);
     world.audioMuted = !world.audioMuted;
     const allSounds = [
         world.jumpSound,
@@ -52,4 +53,36 @@ function muteSounds() {
     };
     document.activeElement.blur();
 }
+
+function sliderSounds() {
+    console.log('world :>> ', world);
+    const volumeSlider = document.getElementById("volume");
+    const allSounds = [
+        world.jumpSound,
+        world.hurtSound,
+        world.coinSound,
+        world.splashSound,
+        world.jumpOnChickenSound,
+        world.throwSound,
+        world.collectBottleSound,
+        world.winSound,
+        world.loseSound,
+        world.snoreSound,
+    ];
+
+
+    // Setze den Slider auf die Lautstärke des ersten Sounds oder auf den Standardwert 1.0
+    volumeSlider.value = allSounds[0].volume || 1.0;
+
+    // Füge einen einmaligen Event-Listener hinzu, der die Lautstärke für alle Sounds ändert
+    volumeSlider.addEventListener("input", function() {
+        const volume = volumeSlider.value; // Hole den aktuellen Wert des Sliders
+        allSounds.forEach(sound => {
+            sound.volume = volume; // Setze die Lautstärke für jedes Soundobjekt
+        });
+    });
+
+    document.activeElement.blur();
+}
+
 
