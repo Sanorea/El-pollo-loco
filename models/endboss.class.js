@@ -43,7 +43,7 @@ class Endboss extends MovableObject {
         this.bossAnimationInterval = setInterval(() => {
             if (this.isDead()) {
                 this.playAnimationBossChicken(this.IMAGES_DEAD);
-                world.winSound.play();
+                soundManager.winSound.play();
                 //clearIntervals();
                 this.bossAnimationTimeout = setTimeout(() => {
                     document.getElementById('winScreen').classList.remove('d-none');
@@ -53,7 +53,7 @@ class Endboss extends MovableObject {
 
             } else if (this.isHurt(2)) {
                 this.playAnimation(this.IMAGES_HURT);
-/*                 world.splashSound.play(); */
+/*                 soundManager.splashSound.play(); */
             } else {
                 this.playAnimation(this.IMAGES_WALKING);
             }

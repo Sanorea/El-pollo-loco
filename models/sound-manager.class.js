@@ -72,14 +72,10 @@ class Sounds {
             this.backgroundMusic.play();
             document.getElementById('soundOn').classList.remove('d-none');
             document.getElementById('soundOff').classList.add('d-none');
-            document.getElementById('soundOnInGame').classList.remove('d-none');
-            document.getElementById('soundOffInGame').classList.add('d-none');
         } else {
             this.backgroundMusic.pause();
             document.getElementById('soundOn').classList.add('d-none');
             document.getElementById('soundOff').classList.remove('d-none');
-            document.getElementById('soundOnInGame').classList.add('d-none');
-            document.getElementById('soundOffInGame').classList.remove('d-none');
         }
         document.activeElement.blur();
     }
@@ -90,29 +86,19 @@ class Sounds {
     }
 
     handleMuteStatusMusic() {
-        console.log('*******************');
-        console.log('handleMuteStatusMusic1 :>> ', this.coinSound.muted);
-        //console.log('this.backgroundMusic :>> ', this.backgroundMusic.paused);
-
-        
-        // 🧠 Merke dir den aktuellen Mute-Zustand
         let musicMuted = this?.backgroundMusic.paused || false;
         let soundMuted = this?.coinSound.muted || false;
-        console.log('handleMuteStatusMusic2 :>> ', soundMuted);
         return { musicMuted, soundMuted }
     }
 
     handleMuteStatusSounds(musicMuted, soundMuted) {
-        console.log('handleMuteStatusSounds1 :>> ', soundMuted);
         this.soundMuted = soundMuted;
         this.loadSoundsStatus();
         this.setMusicStatus(musicMuted);
         this.toggleSoundButton(this.soundMuted);
-        console.log('handleMuteStatusSounds2 :>> ', this.soundMuted);
     }
 
     loadSoundsStatus() {
-        console.log('loadSoundsStatus1 :>> ', this.soundMuted);
         const effectSounds = [
             this.jumpSound,
             this.hurtSound,
@@ -128,7 +114,6 @@ class Sounds {
         effectSounds.forEach(sound => {
             sound.muted = this.soundMuted;
         });
-        console.log('loadSoundsStatus2 :>> ', this.soundMuted);
     }
 
     setMusicStatus(musicPaused) {
@@ -145,15 +130,12 @@ class Sounds {
     }
 
     toggleSoundButton(soundMuted) {
-        console.log('toggleSoundButton1 :>> ', soundMuted);
         document.getElementById('soundEffectOn').classList.toggle('d-none', soundMuted);
         document.getElementById('soundEffectOff').classList.toggle('d-none', !soundMuted);
-        console.log('toggleSoundButton2 :>> ', soundMuted);
     }
 
     checkMuteButtonSound() {
         if (!this || !this.soundMuted) this.playButtonSound();
-        //console.log('checkMuteButtonSound :>> ', this.soundMuted);
     }
 
     muteBackgroundMusic() {
@@ -163,7 +145,6 @@ class Sounds {
 
     muteSounds() {
         let { musicMuted, soundMuted } = this.handleMuteStatusMusic();
-        console.log('muteSounds1 :>> ', soundMuted);
         this.soundMuted = !soundMuted;
         const allSounds = [
             this.jumpSound,
@@ -185,18 +166,11 @@ class Sounds {
         if (this.soundMuted) {
             document.getElementById('soundEffectOn').classList.add('d-none');
             document.getElementById('soundEffectOff').classList.remove('d-none');
-            document.getElementById('soundEffectOnInGame').classList.add('d-none');
-            document.getElementById('soundEffectOffInGame').classList.remove('d-none');
-
         } else {
             document.getElementById('soundEffectOn').classList.remove('d-none');
             document.getElementById('soundEffectOff').classList.add('d-none');
-            document.getElementById('soundEffectOnInGame').classList.remove('d-none');
-            document.getElementById('soundEffectOffInGame').classList.add('d-none');
-
         };
         document.activeElement.blur();
-        console.log('muteSounds2 :>> ', soundMuted);
     }
 
     sliderSounds() {
@@ -205,7 +179,6 @@ class Sounds {
         musicSlider.value = this.backgroundMusic.volume || 1.0;
         musicSlider.addEventListener("input", (event) => { // Benutze hier eine Arrow Function
             const volume = event.target.value;
-            console.log('volume :>> ', volume);
             this.setVolume(volume);  // Jetzt sollte es funktionieren
             this.musicSample.volume = volume;
             this.playMusicSample();
@@ -214,10 +187,8 @@ class Sounds {
         const soundSlider = document.getElementById("soundVolume");
         // Slider für Sounds
         soundSlider.value = this.soundSample.volume || 1.0; // Referenzwert setzen
-
         soundSlider.addEventListener("input", (event) => { // Auch hier eine Arrow Function verwenden
             const volume = parseFloat(event.target.value); // ❗ Hier wird die Lautstärke korrekt ausgelesen
-
             const allSounds = [
                 this.jumpSound,
                 this.hurtSound,

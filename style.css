@@ -58,6 +58,13 @@ canvas {
     z-index: 900;
 }
 
+.canvas-overlay {
+    width: 720px;
+    height: 480px;
+    z-index: 1000;
+    margin-top: 149px;
+}
+
 .gameover-img {
     position: absolute;
     height: 480px;
@@ -68,6 +75,14 @@ canvas {
 .gameover-screen-button-container {
     position: absolute;
     top: 730px;
+}
+
+.game-button-container {
+display: flex;
+justify-content: end;
+align-items: end;
+flex-direction: row;
+gap: 5px;
 }
 
 .gameover-screen-button {
@@ -82,6 +97,30 @@ canvas {
     font-weight: 800;
     color: rgba(125, 47, 19, 1);
 }
+
+.game-screen-button {
+    height: 40px;
+    width: 40px;
+    background-color: rgba(255, 206, 22, 1);
+    border-color: rgba(125, 47, 19, 1);
+    border-radius: 16px;
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: 800;
+    color: rgba(125, 47, 19, 1);
+}
+
+.game-button-container img {
+    height: 30px;
+    width: 30px;
+    margin-right: 5px;
+    margin-top: 5px;
+}
+
+.game-button-container img:hover {
+    transform: scale(1.1);
+}
+
 
 .gameover-screen-button:hover {
     transform: scale(1.1);

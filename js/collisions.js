@@ -19,7 +19,6 @@ function defineResultCollisionsEnemies(world, e, enemiePath) {
 function checkCollisionsJumpOnEnemies(world, enemy, enemiePath) {
     let feetOfCharacter = world.character.y + world.character.height;
     let headOfChicken = enemy.y + (enemy.height * 0.6); 
-    /* console.log("Feet:", feetOfCharacter, "Head:", headOfChicken, "SpeedY:", world.character.speedY); */
     if (feetOfCharacter <= headOfChicken && world.character.speedY <= 0) {
         lastJumpOnEnemy = new Date().getTime();
         world.deadChicken(enemy, enemiePath);

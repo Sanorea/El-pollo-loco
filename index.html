@@ -37,23 +37,11 @@
     <canvas id="canvas" width="720" height="480">
     </canvas>
     <div id="menuButtonGame" class="overlay d-none">
-        <div class="gameover-screen-button-container">
-            <button onclick="restart()" class="gameover-screen-button">Restart</button>
-            <button onclick="openMenu()" class="gameover-screen-button">Menu</button>
-        </div>
-        <div>
-            <div>
-                <img src="icons/musicOff.svg" alt="" onclick="soundManager.toggleMusic();" id="soundOffInGame"
-                    class="gameover-screen-button ">
-                <img src="icons/musicOn.svg" alt="" onclick="soundManager.toggleMusic();" id="soundOnInGame"
-                    class="gameover-screen-button d-none">
-
-            </div>
-            <div>
-                <img src="icons/soundOff.svg" alt="" onclick="soundManager.muteSounds()" id="soundEffectOffInGame"
-                    class="gameover-screen-button d-none">
-                <img src="icons/soundOn.svg" alt="" onclick="soundManager.muteSounds()" id="soundEffectOnInGame"
-                    class="gameover-screen-button">
+        <div class="canvas-overlay">
+            <div class="game-button-container">
+                <img src="icons/restart.svg" onclick="restart()" class="game-screen-button" alt="">
+                <img src="icons/home.svg" onclick="openMenu()" class="game-screen-button" alt="">
+                <img src="icons/settings.svg" alt="" onclick="openSettings()" class="game-screen-button">
             </div>
         </div>
     </div>
@@ -125,6 +113,7 @@
 
             <div class="gameover-screen-button-container">
                 <button onclick="openMenu()" class="gameover-screen-button">Menu</button>
+                <button onclick="restart()" class="gameover-screen-button">Restart</button>
             </div>
         </div>
 

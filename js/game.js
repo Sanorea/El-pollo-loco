@@ -14,25 +14,16 @@ function restart() {
     const currentMusicVolume = soundManager.backgroundMusic.volume;
     const currentSoundVolume = soundManager.soundSample.volume;
     const currentMusicMuteStatus = soundManager.backgroundMusic.paused;
-
     cleanGame();
-    
-    //console.log('restart0 :>> ', currentSoundMuteStatus);
-
     let { musicMuted, soundMuted } = soundManager.handleMuteStatusMusic();
-    //soundManager.handleMuteStatusSounds(musicMuted, soundMuted);
-
-    console.log('restart1 :>> ', soundMuted);
     resetWorld(musicMuted, soundMuted);
     soundManager.handleMuteStatusSounds(musicMuted, soundMuted);
-
     cleanUI();
     soundManager.checkMuteButtonSound();
 
     // 🔉 Stelle Lautstärke nach dem Reset wieder her
     soundManager.setVolume(currentMusicVolume);
     soundManager.musicSample.volume = currentMusicVolume;
-
     const allSounds = [
         soundManager.jumpSound,
         soundManager.hurtSound,
@@ -44,22 +35,16 @@ function restart() {
         soundManager.winSound,
         soundManager.loseSound,
         soundManager.snoreSound,
-
     ];
-    console.log('restart2 :>> ', soundMuted);
     allSounds.forEach(sound => {
         sound.volume = currentSoundVolume;
     });
     soundManager.soundSample.volume = currentSoundVolume;
-
     if (currentMusicMuteStatus) {
-
         soundManager.backgroundMusic.pause();
     } else {
         soundManager.backgroundMusic.play();
     }
-
-    console.log('restart3 :>> ', soundMuted);
 }
 
 
@@ -92,6 +77,7 @@ function cleanUI() {
     document.getElementById('winScreen').classList.add('d-none');
     document.getElementById('menu-screen').classList.add('d-none');
     document.getElementById('menuButtonGame').classList.remove('d-none');
+    document.getElementById('setting-screen').classList.add('d-none');
     document.activeElement.blur();
 }
 
@@ -125,7 +111,6 @@ function openInstructions() {
     document.getElementById('menu-screen').classList.add('d-none');
     document.getElementById('instruction-screen').classList.remove('d-none');
     soundManager.playButtonSound();
-
 }
 
 function openSettings() {
@@ -133,5 +118,4 @@ function openSettings() {
     document.getElementById('setting-screen').classList.remove('d-none');
     soundManager.playButtonSound();
     soundManager.sliderSounds();
-
 }

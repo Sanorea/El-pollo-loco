@@ -13,7 +13,7 @@ class ThrowableObject extends MovableObject {
 
     //passt den Standort der Flasche gemäss Intervall an
     throw() {
-        world.throwSound.play();
+        soundManager.throwSound.play();
         if (this.throwDirection) {
             this.speedY = 30;
             this.applyGravity();
