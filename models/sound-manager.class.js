@@ -63,7 +63,7 @@ class Sounds {
         const sample = this.musicSample;
         sample.currentTime = 10;
         sample.volume = this.backgroundMusic.volume;
-        this.musicSample.play().catch(e => console.warn('Music sample play blocked:', e));
+        sample.play().catch(e => console.warn('Music sample play blocked:', e));
         setTimeout(() => sample.pause(), 1500);
     }
 

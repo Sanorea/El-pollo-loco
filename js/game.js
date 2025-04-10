@@ -115,6 +115,7 @@ function openInstructions() {
 
 function openSettings() {
     document.getElementById('menu-screen').classList.add('d-none');
+    document.getElementById('menuButtonGame').classList.add('d-none');
     document.getElementById('setting-screen').classList.remove('d-none');
     soundManager.playButtonSound();
     soundManager.sliderSounds();
