@@ -73,6 +73,7 @@ function resetWorld(musicMuted, soundMuted) {
 
 function cleanUI() {
     // 👇 Restliches UI aufräumen
+    document.getElementById('gameScreen').classList.remove('d-none');
     document.getElementById('gameover-screen').classList.add('d-none');
     document.getElementById('winScreen').classList.add('d-none');
     document.getElementById('menu-screen').classList.add('d-none');
@@ -104,12 +105,15 @@ function openMenu() {
     document.getElementById('instruction-screen').classList.add('d-none');
     document.getElementById('setting-screen').classList.add('d-none');
     document.getElementById('menuButtonGame').classList.add('d-none');
+    document.getElementById('gameScreen').classList.add('d-none');
     soundManager.playButtonSound();
 }
 
 function openInstructions() {
     document.getElementById('menu-screen').classList.add('d-none');
     document.getElementById('instruction-screen').classList.remove('d-none');
+    document.getElementById('gameScreen').classList.add('d-none');
+
     soundManager.playButtonSound();
 }
 
@@ -117,6 +121,16 @@ function openSettings() {
     document.getElementById('menu-screen').classList.add('d-none');
     document.getElementById('menuButtonGame').classList.add('d-none');
     document.getElementById('setting-screen').classList.remove('d-none');
+    document.getElementById('gameScreen').classList.add('d-none');
+
     soundManager.playButtonSound();
     soundManager.sliderSounds();
+}
+
+function openFullscreen() {
+    document.getElementById('gameScreen').classList.add('fullscreen');
+    document.getElementById('canvas').classList.add('fullscreen');
+    document.getElementById('screens').classList.add('fullscreen');
+    document.getElementById('gameScreen').classList.add('fullscreen');
+    document.getElementById('header').classList.add('d-none');
 }

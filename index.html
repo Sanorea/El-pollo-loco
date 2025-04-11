@@ -32,20 +32,20 @@
 </head>
 
 <body onload="init()">
-    <h1>El pollo loco</h1>
-    <div class="screens">
-        <canvas id="canvas" width="720" height="480" class="canvas-container">
+    <h1 id="header">El pollo loco</h1>
+    <div id="gameScreen" class="game-screen d-none">
+        <canvas id="canvas" width="720px" height="480px" class="canvas-container">
         </canvas>
-        <div  id="menuButtonGame" class="game-button-container d-none">
+        <div id="menuButtonGame" class="game-button-container d-none">
             <img src="icons/restart.svg" onclick="restart()" class="game-screen-button" alt="">
             <img src="icons/home.svg" onclick="openMenu()" class="game-screen-button" alt="">
             <img src="icons/settings.svg" alt="" onclick="openSettings()" class="game-screen-button">
-            <img src="icons/fullscreen.svg" alt="" onclick="" class="game-screen-button">
+            <img src="icons/fullscreen.svg" alt="" onclick="openFullscreen()" class="game-screen-button">
         </div>
     </div>
-    <div class="screens">
+    <div id="screens" class="screens">
         <div id="gameover-screen" class="overlay-screen d-none">
-            <img class="" src="img/9_intro_outro_screens/game_over/game over.png" alt="">
+            <img class="background-images" src="img/9_intro_outro_screens/game_over/game over.png" alt="">
             <div class="gameover-screen-button-container">
                 <button onclick="restart()" class="gameover-screen-button">Restart</button>
                 <button onclick="openMenu()" class="gameover-screen-button">Menu</button>
@@ -62,7 +62,7 @@
             </div>
         </div>
         <div id="menu-screen" class="overlay-screen">
-            <img class="" src="img/9_intro_outro_screens/start/startscreen_1.png" alt="">
+            <img class="background-images" src="img/9_intro_outro_screens/start/startscreen_1.png" alt="">
             <div class="gameover-screen-button-container">
                 <button onclick="restart()" class="gameover-screen-button">Start</button>
                 <button onclick="openInstructions()" class="gameover-screen-button">Instructions</button>
@@ -72,7 +72,7 @@
         </div>
 
         <div id="instruction-screen" class="overlay-screen d-none">
-            <img class="" src="img/9_intro_outro_screens/start/startscreen_1.png" alt="">
+            <img class="background-images" src="img/9_intro_outro_screens/start/startscreen_1.png" alt="">
             <div class="instruction-text">
                 <h3>Instructions</h3>
                 <p>Hier wird das Spiel erklärt</p>
@@ -82,28 +82,23 @@
             </div>
         </div>
         <div id="setting-screen" class="overlay-screen d-none">
-            <img class="" src="img/9_intro_outro_screens/start/startscreen_1.png" alt="">
+            <img class="background-images" src="img/9_intro_outro_screens/start/startscreen_1.png" alt="">
             <div class="instruction-text">
                 <h3>Settings</h3>
-                <div>
-                    <div>
-
-                        <div>
-                            <img src="icons/musicOff.svg" alt="" onclick="soundManager.muteBackgroundMusic()"
-                                id="soundOff" class="gameover-screen-button d-none">
-                            <img src="icons/musicOn.svg" alt="" onclick="soundManager.muteBackgroundMusic()"
-                                id="soundOn" class="gameover-screen-button">
-                        </div>
-                        <input type="range" id="musicVolume" min="0" max="1" step="0.01" value="1">
+                <div class="setting-icon-settings">
+                    <div class="setting-icon-container">
+                        <img src="icons/musicOff.svg" alt="" onclick="soundManager.muteBackgroundMusic()" id="soundOff"
+                            class="setting-icons d-none">
+                        <img src="icons/musicOn.svg" alt="" onclick="soundManager.muteBackgroundMusic()" id="soundOn"
+                            class="setting-icons">
+                        <img src="icons/soundOff.svg" alt="" onclick="soundManager.muteSounds()" id="soundEffectOff"
+                            class="setting-icons d-none">
+                        <img src="icons/soundOn.svg" alt="" onclick="soundManager.muteSounds()" id="soundEffectOn"
+                            class="setting-icons">
                     </div>
-                    <div>
-                        <div>
-                            <img src="icons/soundOff.svg" alt="" onclick="soundManager.muteSounds()" id="soundEffectOff"
-                                class="gameover-screen-button d-none">
-                            <img src="icons/soundOn.svg" alt="" onclick="soundManager.muteSounds()" id="soundEffectOn"
-                                class="gameover-screen-button">
-                        </div>
-                        <input type="range" id="soundVolume" min="0" max="1" step="0.01" value="1">
+                    <div class="setting-icon-container">
+                        <input type="range" id="musicVolume" min="0" max="1" step="0.01" value="1" class="setting-slider">
+                        <input type="range" id="soundVolume" min="0" max="1" step="0.01" value="1" class="setting-slider">
                     </div>
                 </div>
                 <div class="gameover-screen-button-container">
