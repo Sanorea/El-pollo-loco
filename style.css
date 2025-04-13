@@ -140,6 +140,20 @@ canvas {
     right: 10px;
 }
 
+.game-action-button-container {
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-end;
+    flex-direction: row;
+    gap: 5px;
+    position: absolute;
+    top: 90%;
+    width: 100%;
+
+}
+
+
+
 .gameover-screen-button {
     height: 40px;
     width: 140px;
@@ -163,6 +177,20 @@ canvas {
     font-weight: 800;
     color: rgba(125, 47, 19, 1);
     z-index: 1100;
+}
+
+.game-screen-action-button {
+    height: 40px;
+    width: 40px;
+    background-color: rgba(255, 206, 22, 1);
+    border-color: rgba(125, 47, 19, 1);
+    border-radius: 16px;
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: 800;
+    color: rgba(125, 47, 19, 1);
+    z-index: 9999;
+    margin-inline:10px
 }
 
 .game-button-container img {
