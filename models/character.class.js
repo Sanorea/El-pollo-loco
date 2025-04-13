@@ -128,6 +128,7 @@ class Character extends MovableObject {
                 setTimeout(() => {
                     let gameoverScreen = document.getElementById('gameover-screen');
                     document.getElementById('menuButtonGame').classList.add('d-none');
+
                     gameoverScreen.classList.remove('d-none');
                 }, 1500);
                 this.y -= this.deadSpeedY;

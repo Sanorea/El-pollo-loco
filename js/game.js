@@ -2,6 +2,7 @@ let canvas;
 let world;
 let keyboard = new Keyboard();
 let soundManager;
+let fullscreen = false;
 
 function init() {
     canvas = document.getElementById('canvas');
@@ -79,6 +80,22 @@ function cleanUI() {
     document.getElementById('menu-screen').classList.add('d-none');
     document.getElementById('menuButtonGame').classList.remove('d-none');
     document.getElementById('setting-screen').classList.add('d-none');
+
+    document.getElementById('screenOpenFS').classList.add('d-none');
+    document.getElementById('screenCloseFS').classList.add('d-none');
+
+    console.log('fullscreen :>> ', fullscreen);
+
+    if (fullscreen) {
+        document.getElementById('gameCloseFS').classList.remove('d-none');
+        document.getElementById('gameOpenFS').classList.add('d-none');
+
+    } else {
+        document.getElementById('gameOpenFS').classList.remove('d-none');
+        document.getElementById('gameCloseFS').classList.add('d-none');
+    }
+
+    document.getElementById('screens').classList.add('d-none');
     document.activeElement.blur();
 }
 
@@ -106,6 +123,13 @@ function openMenu() {
     document.getElementById('setting-screen').classList.add('d-none');
     document.getElementById('menuButtonGame').classList.add('d-none');
     document.getElementById('gameScreen').classList.add('d-none');
+    if (fullscreen) {
+        document.getElementById('screenCloseFS').classList.remove('d-none');
+    } else {
+        document.getElementById('screenOpenFS').classList.remove('d-none');
+    }
+    document.getElementById('screens').classList.remove('screensFS')
+    document.getElementById('screens').classList.remove('d-none');
     soundManager.playButtonSound();
 }
 
@@ -113,7 +137,13 @@ function openInstructions() {
     document.getElementById('menu-screen').classList.add('d-none');
     document.getElementById('instruction-screen').classList.remove('d-none');
     document.getElementById('gameScreen').classList.add('d-none');
-
+    if (fullscreen) {
+        document.getElementById('screenCloseFS').classList.remove('d-none');
+    } else {
+        document.getElementById('screenOpenFS').classList.remove('d-none');
+    }
+    document.getElementById('screens').classList.remove('screensFS')
+    document.getElementById('screens').classList.remove('d-none');
     soundManager.playButtonSound();
 }
 
@@ -122,15 +152,66 @@ function openSettings() {
     document.getElementById('menuButtonGame').classList.add('d-none');
     document.getElementById('setting-screen').classList.remove('d-none');
     document.getElementById('gameScreen').classList.add('d-none');
-
+    if (fullscreen) {
+        document.getElementById('screenCloseFS').classList.remove('d-none');
+    } else {
+        document.getElementById('screenOpenFS').classList.remove('d-none');
+    }
+    document.getElementById('screens').classList.remove('screensFS')
+    document.getElementById('screens').classList.remove('d-none');
     soundManager.playButtonSound();
     soundManager.sliderSounds();
 }
 
-function openFullscreen() {
+function generalFullscreenOpenUI() {
     document.getElementById('gameScreen').classList.add('fullscreen');
     document.getElementById('canvas').classList.add('fullscreen');
     document.getElementById('screens').classList.add('fullscreen');
     document.getElementById('gameScreen').classList.add('fullscreen');
     document.getElementById('header').classList.add('d-none');
+    document.getElementById('screenPosition').classList.add('fs-screen-position');
+    document.getElementById('actionScreens').classList.add('action-screens-FS');
+    document.getElementById('gameover-screen').classList.add('win-or-lose-screen-FS');
+
+}
+
+function generalFullscreenCloseUI() {
+    document.getElementById('gameScreen').classList.remove('fullscreen');
+    document.getElementById('canvas').classList.remove('fullscreen');
+    document.getElementById('screens').classList.remove('fullscreen');
+    document.getElementById('gameScreen').classList.remove('fullscreen');
+    document.getElementById('header').classList.remove('d-none');
+    document.getElementById('screenPosition').classList.remove('fs-screen-position');
+    document.getElementById('actionScreens').classList.remove('action-screens-FS');
+    document.getElementById('gameover-screen').classList.remove('win-or-lose-screen-FS');
+}
+
+function openFullscreenGame() {
+    generalFullscreenOpenUI();
+    
+    document.getElementById('gameOpenFS').classList.add('d-none');
+    document.getElementById('gameCloseFS').classList.remove('d-none');
+    fullscreen = true;
+
+}
+
+function closeFullscreenGame() {
+    generalFullscreenCloseUI();
+    document.getElementById('gameOpenFS').classList.remove('d-none');
+    document.getElementById('gameCloseFS').classList.add('d-none');
+    fullscreen = false;
+}
+
+function openFullscreenScreen() {
+    generalFullscreenOpenUI();
+    document.getElementById('screenOpenFS').classList.add('d-none');
+    document.getElementById('screenCloseFS').classList.remove('d-none');
+    fullscreen = true;
+}
+
+function closeFullscreenScreen() {
+    generalFullscreenCloseUI();
+    document.getElementById('screenOpenFS').classList.remove('d-none');
+    document.getElementById('screenCloseFS').classList.add('d-none');
+    fullscreen = false;
 }

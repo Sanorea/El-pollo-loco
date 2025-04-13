@@ -63,17 +63,15 @@ canvas {
     width: 100%;
     display: flex;
     justify-content: space-around;
+    z-index: 9999;
 }
 
 .game-screen {
     height: 480px;
     width: 720px;
-    top: 294px;
     display: flex;
     justify-content: center;
     position: relative;
-    width: 720px;
-    height: 480px;
 }
 
 .screens {
@@ -84,11 +82,19 @@ canvas {
     position: relative;
 }
 
+.screensFS {
+    position: absolute;
+}
+
+.screen-position {
+    height: 480px;
+    width: 720px;
+    display: flex;
+    justify-content: center;
+    position: fixed;
+}
 
 .overlay-screen {
-    position: absolute;
-    top: 0;
-    left: 0;
     width: 100%;
     height: 100%;
     z-index: 1000;
@@ -96,6 +102,18 @@ canvas {
     align-items: center;
     justify-content: center;
     flex-direction: column;
+}
+
+.win-or-lose-screen {
+    position: fixed;
+    max-width: 720px;
+    height: 480px;
+}
+
+.win-or-lose-screen-FS {
+    max-width: unset;
+    width: 100vw;
+    height: 100vh;
 }
 
 .background-images {
@@ -115,14 +133,11 @@ canvas {
     display: flex;
     justify-content: flex-end;
     align-items: flex-start;
-    /* Icons oben ausrichten */
     flex-direction: row;
     gap: 5px;
     position: absolute;
     top: 10px;
-    /* Abstand von oben */
     right: 10px;
-    /* Abstand von rechts */
 }
 
 .gameover-screen-button {
@@ -230,6 +245,40 @@ canvas {
     top: unset;
 }
 
+.fs-screen-position {
+    height: unset;
+    width: unset;
+}
+
+.fullscreen-menu-button {
+    margin-top: 5px;
+    margin-right: 5px;
+}
+
+.fullscreen-menu-button-container {
+    width: 100%;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    position: fixed;
+    z-index: 9999;
+
+}
+
+
+.action-screens {
+    height: 480px;
+    width: 720px;
+    display: flex;
+    justify-content: center;
+    position: fixed;
+}
+
+.action-screens-FS {
+    height: 100vh;
+    width: 100vw;
+}
+
 .setting-icons {
     height: 40px;
     width: 40px;
@@ -263,54 +312,69 @@ canvas {
     }
 
     .screens {
-        width: 100%;
+        width: 100vw;
     }
 
     .game-screen {
-        width: 100%;
-        height: 100%;
+        width: 100vw;
+
     }
+
+    .action-screens {
+        width: 100%;
+    }
+
+
 
     .overlay-screen img {
         width: 100%;
-
     }
 
-    .gameover-screen-button-container {
-        /* top: 82vh */
-    }
+
 
     h1 {
         display: none;
     }
+
+
 }
+
+
 
 @media only screen and (max-height: 960px) {
     h1 {
         display: none;
     }
-
-    .screens {
-        align-items: center;
-        position: relative;
-        top: unset;
-    }
-
-    .game-screen {
-        align-items: center;
-        position: relative;
-        top: unset;
-    }
 }
+
 
 @media only screen and (max-height: 480px) {
 
-    h1 {
-        display: none;
+    .screens {
+        height: 100vh;
+        width: 100vw;
+    }
+
+    .game-screen {
+        height: 100vh;
+        width: 100vw;
+
+    }
+
+    .action-screens {
+        height: 100vh;
+        width: 100vw;
     }
 
     canvas {
         height: 100vh;
+        width: 100vw;
+    }
+
+    .win-or-lose-screen {
+        width: 100vw;
+        height: 100vh;
+        max-width: unset;
     }
 
     .gameover-screen-button-container {
@@ -323,9 +387,14 @@ canvas {
         justify-content: start;
     }
 
-    .game-button-container {
-        right: 10vw;
+    .screen-position {
+        position: relative;
     }
+
+    .FS-d-none {
+        display: none;
+    }
+
 }
 
 @media only screen and (max-height: 400px) {
@@ -347,7 +416,7 @@ canvas {
     text-align: center;
     padding-top: 50vh;
     z-index: 9999;
-}
+} 
 
 
 
@@ -357,6 +426,5 @@ canvas {
     .rotate-warning {
         display: block;
     }
-
 
 }
