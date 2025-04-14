@@ -10,7 +10,6 @@ function init() {
     window.addEventListener('keyup', handleKeyUp);
     soundManager = new Sounds();
     setupTouchControls();
-    handleMobile();
 }
 
 function restart() {
@@ -23,10 +22,27 @@ function restart() {
     soundManager.handleMuteStatusSounds(musicMuted, soundMuted);
     cleanUI();
     soundManager.checkMuteButtonSound();
+    setVolumeAfterReset(currentMusicVolume, currentSoundVolume, currentMusicMuteStatus);
 
+}
+
+function setVolumeAfterReset(currentMusicVolume, currentSoundVolume, currentMusicMuteStatus) {
     // 🔉 Stelle Lautstärke nach dem Reset wieder her
     soundManager.setVolume(currentMusicVolume);
     soundManager.musicSample.volume = currentMusicVolume;
+    const allSounds = loadSoundsAfterReset();
+    allSounds.forEach(sound => {
+        sound.volume = currentSoundVolume;
+    });
+    soundManager.soundSample.volume = currentSoundVolume;
+    if (currentMusicMuteStatus) {
+        soundManager.backgroundMusic.pause();
+    } else {
+        soundManager.backgroundMusic.play();
+    }
+}
+
+function loadSoundsAfterReset() {
     const allSounds = [
         soundManager.jumpSound,
         soundManager.hurtSound,
@@ -39,15 +55,7 @@ function restart() {
         soundManager.loseSound,
         soundManager.snoreSound,
     ];
-    allSounds.forEach(sound => {
-        sound.volume = currentSoundVolume;
-    });
-    soundManager.soundSample.volume = currentSoundVolume;
-    if (currentMusicMuteStatus) {
-        soundManager.backgroundMusic.pause();
-    } else {
-        soundManager.backgroundMusic.play();
-    }
+    return allSounds;
 }
 
 
@@ -82,24 +90,22 @@ function cleanUI() {
     document.getElementById('menu-screen').classList.add('d-none');
     document.getElementById('menuButtonGame').classList.remove('d-none');
     document.getElementById('setting-screen').classList.add('d-none');
-
     document.getElementById('screenOpenFS').classList.add('d-none');
     document.getElementById('screenCloseFS').classList.add('d-none');
+    toggleFScleanUI();
+    document.getElementById('screens').classList.add('d-none');
+    document.getElementById('impressumScreen').classList.add('d-none');
+    document.activeElement.blur();
+}
 
-    console.log('fullscreen :>> ', fullscreen);
-
+function toggleFScleanUI() {
     if (fullscreen) {
         document.getElementById('gameCloseFS').classList.remove('d-none');
         document.getElementById('gameOpenFS').classList.add('d-none');
-
     } else {
         document.getElementById('gameOpenFS').classList.remove('d-none');
         document.getElementById('gameCloseFS').classList.add('d-none');
     }
-
-    document.getElementById('screens').classList.add('d-none');
-    document.getElementById('impressumScreen').classList.add('d-none');
-    document.activeElement.blur();
 }
 
 function handleKeyDown(event) {
@@ -120,113 +126,69 @@ function handleKeyUp(event) {
     if (event.keyCode == 68) keyboard.D = false;
 }
 
-function handleMobile() {
-    if (/Mobi|Android/i.test(navigator.userAgent)) {
-        document.getElementById('gameActionButtonContainer').classList.remove('d-none');
-    }
-    
+
+function setupTouchControls() {
+    mobileButtons('btn-left', 'touchstart', 'LEFT', true);
+    mobileButtons('btn-left', 'touchend', 'LEFT', false);
+    mobileButtons('btn-right', 'touchstart', 'RIGHT', true);
+    mobileButtons('btn-right', 'touchend', 'RIGHT', false);
+    mobileButtons('btn-up', 'touchstart', 'SPACE', true);
+    mobileButtons('btn-up', 'touchend', 'SPACE', false);
+    mobileButtons('btn-throw', 'touchstart', 'D', true);
+    mobileButtons('btn-throw', 'touchend', 'D', false);
 }
 
-function setupTouchControls() { 
-    document.getElementById('btn-left').addEventListener('touchstart', (e) => {
+function mobileButtons(id, eventType, key, status) {
+    document.getElementById(id).addEventListener(eventType, (e) => {
         e.preventDefault();
-        keyboard.LEFT = true;
-    });
-    document.getElementById('btn-left').addEventListener('touchend', (e) => {
-        e.preventDefault();
-        keyboard.LEFT = false;
-    });
-
-    document.getElementById('btn-right').addEventListener('touchstart', (e) => {
-        e.preventDefault();
-        keyboard.RIGHT = true;
-    });
-    document.getElementById('btn-right').addEventListener('touchend', (e) => {
-        e.preventDefault();
-        keyboard.RIGHT = false;
-    });
-
-    document.getElementById('btn-up').addEventListener('touchstart', (e) => {
-        e.preventDefault();
-        keyboard.SPACE = true;
-    });
-    document.getElementById('btn-up').addEventListener('touchend', (e) => {
-        e.preventDefault();
-        keyboard.SPACE = false;
-    });
-
-    document.getElementById('btn-throw').addEventListener('touchstart', (e) => {
-        e.preventDefault();
-        keyboard.D = true;
-    });
-    document.getElementById('btn-throw').addEventListener('touchend', (e) => {
-        e.preventDefault();
-        keyboard.D = false;
+        keyboard[key] = status;
     });
 }
 
 
 function openMenu() {
+    basicOpenPopupScreen();
     document.getElementById('menu-screen').classList.remove('d-none');
     document.getElementById('instruction-screen').classList.add('d-none');
     document.getElementById('setting-screen').classList.add('d-none');
-    document.getElementById('menuButtonGame').classList.add('d-none');
-    document.getElementById('gameScreen').classList.add('d-none');
-    if (fullscreen) {
-        document.getElementById('screenCloseFS').classList.remove('d-none');
-    } else {
-        document.getElementById('screenOpenFS').classList.remove('d-none');
-    }
-    document.getElementById('screens').classList.remove('screensFS')
-    document.getElementById('screens').classList.remove('d-none');
     document.getElementById('impressumScreen').classList.add('d-none');
-    soundManager.playButtonSound();
 }
 
 function openInstructions() {
+    basicOpenPopupScreen();
     document.getElementById('menu-screen').classList.add('d-none');
     document.getElementById('instruction-screen').classList.remove('d-none');
-    document.getElementById('gameScreen').classList.add('d-none');
-    if (fullscreen) {
-        document.getElementById('screenCloseFS').classList.remove('d-none');
-    } else {
-        document.getElementById('screenOpenFS').classList.remove('d-none');
-    }
-    document.getElementById('screens').classList.remove('screensFS')
-    document.getElementById('screens').classList.remove('d-none');
-    soundManager.playButtonSound();
 }
 
 function openSettings() {
+    basicOpenPopupScreen();
     document.getElementById('menu-screen').classList.add('d-none');
-    document.getElementById('menuButtonGame').classList.add('d-none');
     document.getElementById('setting-screen').classList.remove('d-none');
-    document.getElementById('gameScreen').classList.add('d-none');
-    if (fullscreen) {
-        document.getElementById('screenCloseFS').classList.remove('d-none');
-    } else {
-        document.getElementById('screenOpenFS').classList.remove('d-none');
-    }
-    document.getElementById('screens').classList.remove('screensFS')
-    document.getElementById('screens').classList.remove('d-none');
-    soundManager.playButtonSound();
     soundManager.sliderSounds();
 }
 
 function openImpressum() {
+    basicOpenPopupScreen();
     document.getElementById('menu-screen').classList.add('d-none');
-    document.getElementById('menuButtonGame').classList.add('d-none');
     document.getElementById('impressumScreen').classList.remove('d-none');
-    document.getElementById('gameScreen').classList.add('d-none');
+    soundManager.sliderSounds();
+}
+
+function toggleFSButton() {
     if (fullscreen) {
         document.getElementById('screenCloseFS').classList.remove('d-none');
     } else {
         document.getElementById('screenOpenFS').classList.remove('d-none');
     }
+}
+
+function basicOpenPopupScreen() {
+    document.getElementById('menuButtonGame').classList.add('d-none');
+    document.getElementById('gameScreen').classList.add('d-none');
     document.getElementById('screens').classList.remove('screensFS')
     document.getElementById('screens').classList.remove('d-none');
+    toggleFSButton();
     soundManager.playButtonSound();
-    soundManager.sliderSounds();
 }
 
 function generalFullscreenOpenUI() {
@@ -254,7 +216,6 @@ function generalFullscreenCloseUI() {
 
 function openFullscreenGame() {
     generalFullscreenOpenUI();
-    
     document.getElementById('gameOpenFS').classList.add('d-none');
     document.getElementById('gameCloseFS').classList.remove('d-none');
     fullscreen = true;
