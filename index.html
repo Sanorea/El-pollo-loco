@@ -5,6 +5,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Winky+Rough:ital,wght@0,300..900;1,300..900&display=swap"
+        rel="stylesheet">
     <title>El pollo loco</title>
     <link rel="icon" type="image/png" href="img/11_Favicon/Icon-LogoMakr.png">
     <script src="models/drawable-object.class.js"></script>
@@ -36,6 +40,8 @@
 
     <!-- game-screen -->
     <div id="screenPosition" class="screen-position">
+
+
         <div id="gameScreen" class="game-screen d-none">
             <canvas id="canvas" width="720px" height="480px" class="canvas-container">
             </canvas>
@@ -48,16 +54,17 @@
                 <img id="gameCloseFS" src="icons/close_fullscreen.svg" alt="" onclick="closeFullscreenGame()"
                     class="game-screen-button FS-d-none d-none">
             </div>
-            <div id="gameActionButtonContainer" class="game-action-button-container">
-                <div>
-                    <img class="game-screen-action-button" src="icons/arrow_back_.svg" alt="">
-                    <img class="game-screen-action-button" src="icons/arrow_upward.svg" alt="">
-                    <img class="game-screen-action-button" src="icons/arrow_forward.svg" alt="">
+            <div class="mobile-game-buttons d-none">
+                <div id="gameActionButtonContainer" class="game-action-button-container">
+                    <img id="btn-left" class="game-screen-action-button" src="icons/arrow_back_.svg" alt="">
+                    <img id="btn-up" class="game-screen-action-button" src="icons/arrow_upward.svg" alt="">
+                    <img id="btn-right" class="game-screen-action-button" src="icons/arrow_forward.svg" alt="">
                 </div>
-                <img class="game-screen-action-button" src="icons/bottle.svg" alt="">
-
-
+                <div class="game-action-button-container">
+                    <img id="btn-throw" class="game-screen-action-button" src="icons/bottle.svg" alt="">
+                </div>
             </div>
+
         </div>
 
         <div id="actionScreens" class="action-screens d-none">
@@ -82,6 +89,7 @@
                 </div>
             </div>
         </div>
+
         <div id="screens" class="screens">
 
             <!-- Fullscreen button -->
@@ -100,6 +108,9 @@
                     <button onclick="openInstructions()" class="gameover-screen-button">Instructions</button>
                     <button onclick="openSettings()" class="gameover-screen-button">Settings</button>
                 </div>
+                <div class="impressum-button-container">
+                    <p onclick="openImpressum()" class="impressum-button winky-rough-font">Impressum</p>
+                </div>
             </div>
 
             <!-- Instruction-screen -->
@@ -107,7 +118,40 @@
                 <img class="background-images" src="img/9_intro_outro_screens/start/startscreen_1.png" alt="">
                 <div class="instruction-text">
                     <h3>Instructions</h3>
-                    <p>Hier wird das Spiel erklärt</p>
+                    <p class="winky-rough-font">Peppe wurde sein geheimes Salsarezept gestohlen. Als er nach Hinweisen
+                        sucht, wer der Dieb war,
+                        hat er grosse Fussabdrücke eines Vogels gefunden. Hilf Pepe sein Rezept zurück zu erhalten.</p>
+                    <table class="winky-rough-font" border="1" cellpadding="1" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>Aktion</th>
+                                <th>Tastatur</th>
+                                <th>Mobiler Button</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Laufen nach rechts</td>
+                                <td>Pfeil rechts (→)</td>
+                                <td>Rechts-Button</td>
+                            </tr>
+                            <tr>
+                                <td>Laufen nach links</td>
+                                <td>Pfeil links (←)</td>
+                                <td>Links-Button</td>
+                            </tr>
+                            <tr>
+                                <td>Springen</td>
+                                <td>Leertaste (Space)</td>
+                                <td>Springen-Button</td>
+                            </tr>
+                            <tr>
+                                <td>Flasche werfen</td>
+                                <td>D</td>
+                                <td>Werfen-Button</td>
+                            </tr>
+                        </tbody>
+                    </table>
                     <div class="gameover-screen-button-container">
                         <button onclick="openMenu()" class="gameover-screen-button">Menu</button>
                     </div>
@@ -137,6 +181,22 @@
                                 class="setting-slider">
                         </div>
                     </div>
+                    <div class="gameover-screen-button-container">
+                        <button onclick="openMenu()" class="gameover-screen-button">Menu</button>
+                        <button onclick="restart()" class="gameover-screen-button">Restart</button>
+                    </div>
+                </div>
+            </div>
+            <!-- Impressum-screen -->
+            <div id="impressumScreen" class="overlay-screen d-none">
+                <img class="background-images" src="img/9_intro_outro_screens/start/startscreen_1.png" alt="">
+                <div class="instruction-text">
+                    <h3> <strong> Impressum</strong></h3>
+                    <p class="impressum-text winky-rough-font">This game was created by: <br>
+                        Isabel Egli <br>
+                        Software Engineer <br>
+                        3182 Ueberstorf, Switzerland
+                    </p>
                     <div class="gameover-screen-button-container">
                         <button onclick="openMenu()" class="gameover-screen-button">Menu</button>
                         <button onclick="restart()" class="gameover-screen-button">Restart</button>

@@ -9,6 +9,8 @@ function init() {
     window.addEventListener('keydown', handleKeyDown);
     window.addEventListener('keyup', handleKeyUp);
     soundManager = new Sounds();
+    setupTouchControls();
+    handleMobile();
 }
 
 function restart() {
@@ -96,6 +98,7 @@ function cleanUI() {
     }
 
     document.getElementById('screens').classList.add('d-none');
+    document.getElementById('impressumScreen').classList.add('d-none');
     document.activeElement.blur();
 }
 
@@ -117,6 +120,52 @@ function handleKeyUp(event) {
     if (event.keyCode == 68) keyboard.D = false;
 }
 
+function handleMobile() {
+    if (/Mobi|Android/i.test(navigator.userAgent)) {
+        document.getElementById('gameActionButtonContainer').classList.remove('d-none');
+    }
+    
+}
+
+function setupTouchControls() { 
+    document.getElementById('btn-left').addEventListener('touchstart', (e) => {
+        e.preventDefault();
+        keyboard.LEFT = true;
+    });
+    document.getElementById('btn-left').addEventListener('touchend', (e) => {
+        e.preventDefault();
+        keyboard.LEFT = false;
+    });
+
+    document.getElementById('btn-right').addEventListener('touchstart', (e) => {
+        e.preventDefault();
+        keyboard.RIGHT = true;
+    });
+    document.getElementById('btn-right').addEventListener('touchend', (e) => {
+        e.preventDefault();
+        keyboard.RIGHT = false;
+    });
+
+    document.getElementById('btn-up').addEventListener('touchstart', (e) => {
+        e.preventDefault();
+        keyboard.SPACE = true;
+    });
+    document.getElementById('btn-up').addEventListener('touchend', (e) => {
+        e.preventDefault();
+        keyboard.SPACE = false;
+    });
+
+    document.getElementById('btn-throw').addEventListener('touchstart', (e) => {
+        e.preventDefault();
+        keyboard.D = true;
+    });
+    document.getElementById('btn-throw').addEventListener('touchend', (e) => {
+        e.preventDefault();
+        keyboard.D = false;
+    });
+}
+
+
 function openMenu() {
     document.getElementById('menu-screen').classList.remove('d-none');
     document.getElementById('instruction-screen').classList.add('d-none');
@@ -130,6 +179,7 @@ function openMenu() {
     }
     document.getElementById('screens').classList.remove('screensFS')
     document.getElementById('screens').classList.remove('d-none');
+    document.getElementById('impressumScreen').classList.add('d-none');
     soundManager.playButtonSound();
 }
 
@@ -151,6 +201,22 @@ function openSettings() {
     document.getElementById('menu-screen').classList.add('d-none');
     document.getElementById('menuButtonGame').classList.add('d-none');
     document.getElementById('setting-screen').classList.remove('d-none');
+    document.getElementById('gameScreen').classList.add('d-none');
+    if (fullscreen) {
+        document.getElementById('screenCloseFS').classList.remove('d-none');
+    } else {
+        document.getElementById('screenOpenFS').classList.remove('d-none');
+    }
+    document.getElementById('screens').classList.remove('screensFS')
+    document.getElementById('screens').classList.remove('d-none');
+    soundManager.playButtonSound();
+    soundManager.sliderSounds();
+}
+
+function openImpressum() {
+    document.getElementById('menu-screen').classList.add('d-none');
+    document.getElementById('menuButtonGame').classList.add('d-none');
+    document.getElementById('impressumScreen').classList.remove('d-none');
     document.getElementById('gameScreen').classList.add('d-none');
     if (fullscreen) {
         document.getElementById('screenCloseFS').classList.remove('d-none');
