@@ -13,8 +13,6 @@ class World {
     coinsBar = new CoinsBar();
     bottlesBar = new BottlesBar();
     throwableObjects = [];
-    /* endboss = new Endboss; */
-    /* endboss = this.level.endboss; */
     throwDirection = false;
     checkCollisionsThrowBottlesInterval;
     checkCollisionsEnemiesInterval;
@@ -25,7 +23,6 @@ class World {
 
 
     constructor(canvas, keyboard) {
-        console.log('Endboss aus Level:', this.level.endboss);
         this.ctx = canvas.getContext('2d');
         this.canvas = canvas;    
         this.keyboard = keyboard;
@@ -35,11 +32,6 @@ class World {
         this.checkCollisionsCoins();
         this.checkCollisionsBottles();
         this.checkCollisionsBossChicken();
-
-        console.log('World-Endboss:', this.endboss);
-console.log('Level-Endboss:', this.level.endboss);
-console.log('Sind es dieselben?', this.endboss === this.level.endboss);
-
     }
 
     setWorld() {
@@ -65,7 +57,7 @@ console.log('Sind es dieselben?', this.endboss === this.level.endboss);
     checkThrowObjects() {
         if (this.keyboard.D) {
             this.defineDirectionThrowableObject();
-            let bottle = new ThrowableObject(this.character.x + 100, this.character.y + 100, this.throwDirection, this);
+            let bottle = new ThrowableObject(this.character.x + 20, this.character.y + 100, this.throwDirection, this);
             this.throwableObjects.push(bottle);
         }
     }
@@ -92,9 +84,11 @@ console.log('Sind es dieselben?', this.endboss === this.level.endboss);
                 if (this.level.endboss.isColliding(bottle)) {
                     this.throwableObjects = [];
                     this.level.endboss.hit(1);
+                    bottle.colliding = true;
                 }
             });
         }, 400);
+
     }
 
     checkCollisionsCoins() {
@@ -135,26 +129,32 @@ console.log('Sind es dieselben?', this.endboss === this.level.endboss);
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height); //löscht frühere Standorte der Elemente bei jedem neuen zeichnen
         this.ctx.translate(this.camera_x, 0);
         this.addObjectsToMap(this.level.backgroundObjects);//Zeichnet Hintergrund
-        this.addObjectsToMap(this.level.clouds); //Zeichnet Wolken  
-        this.addObjectsToMap(this.level.enemies); //Zeichnet Hünchen
-        this.addObjectsToMap(this.level.smallEnemies); //Zeichnet kleine Hünchen        
-        this.addObjectsToMap(this.level.coins); //Zeichnet Münzen
-        this.addObjectsToMap(this.throwableObjects); // Zeichne Salsa-Flasche in der Luft
-        this.addObjectsToMap(this.level.bottles); //Zeichne Salsa-Flasche am Boden     
+        this.drawEnemiesAndObjects();
         this.ctx.translate(-this.camera_x, 0);
-        this.addToMap(this.statusBar); // Zeichnet Statusbar
-        this.addToMap(this.coinsBar); // Zeichnet Statusbar für Münzen
-        this.addToMap(this.bottlesBar); // Zeichnet Statusbar für Flaschen        
+        this.drawStatusBars();
         this.ctx.translate(+this.camera_x, 0);
         this.addToMap(this.character); //Zeichnet Charakter
-
         this.addToMap(this.level.endboss);
-
         this.ctx.translate(-this.camera_x, 0);
         let self = this;
         requestAnimationFrame(function () {
             self.draw();
         });
+    }
+
+    drawEnemiesAndObjects() {
+        this.addObjectsToMap(this.level.clouds); //Zeichnet Wolken  
+        this.addObjectsToMap(this.level.enemies); //Zeichnet Hünchen
+        this.addObjectsToMap(this.level.smallEnemies); //Zeichnet kleine Hünchen        
+        this.addObjectsToMap(this.level.coins); //Zeichnet Münzen
+        this.addObjectsToMap(this.throwableObjects); // Zeichne Salsa-Flasche in der Luft
+        this.addObjectsToMap(this.level.bottles); //Zeichne Salsa-Flasche am Boden  
+    }
+
+    drawStatusBars() {
+        this.addToMap(this.statusBar); // Zeichnet Statusbar
+        this.addToMap(this.coinsBar); // Zeichnet Statusbar für Münzen
+        this.addToMap(this.bottlesBar); // Zeichnet Statusbar für Flaschen   
     }
 
     addObjectsToMap(objects) {
@@ -169,10 +169,6 @@ console.log('Sind es dieselben?', this.endboss === this.level.endboss);
             this.flipImage(mo);
         }
         mo.draw(this.ctx);
-/*         mo.drawFrame(this.ctx);
-        mo.drawFrameOffsetCharacter(this.ctx);
-        mo.drawFrameOffsetChicken(this.ctx);
-        mo.drawFrameOffsetCoins(this.ctx); */
         if (mo.otherDirection) {
             this.flipImageBack(mo);
         }

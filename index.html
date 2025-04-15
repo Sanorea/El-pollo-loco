@@ -44,22 +44,23 @@
             <canvas id="canvas" width="720px" height="480px" class="canvas-container">
             </canvas>
             <div id="menuButtonGame" class="game-button-container d-none">
-                <img src="icons/restart.svg" onclick="restart()" class="game-screen-button" alt="">
-                <img src="icons/home.svg" onclick="openMenu()" class="game-screen-button" alt="">
-                <img src="icons/settings.svg" alt="" onclick="openSettings()" class="game-screen-button">
-                <img id="gameOpenFS" src="icons/fullscreen.svg" alt="" onclick="openFullscreenGame()"
+                <img src="img/icons/restart.svg" onclick="restart()" class="game-screen-button" alt="">
+                <img src="img/icons/home.svg" onclick="openMenu()" class="game-screen-button" alt="">
+                <img src="img/icons/settings.svg" alt="" onclick="openSettings()" class="game-screen-button">
+                <img id="gameOpenFS" src="img/icons/fullscreen.svg" alt="" onclick="openFullscreenGame()"
                     class="game-screen-button FS-d-none">
-                <img id="gameCloseFS" src="icons/close_fullscreen.svg" alt="" onclick="closeFullscreenGame()"
+                <img id="gameCloseFS" src="img/icons/close_fullscreen.svg" alt="" onclick="closeFullscreenGame()"
                     class="game-screen-button FS-d-none d-none">
             </div>
             <div class="mobile-game-buttons">
                 <div id="gameActionButtonContainer" class="game-action-button-container">
-                    <img id="btn-left" class="game-screen-action-button" src="icons/arrow_back_.svg" alt="">
-                    <img id="btn-up" class="game-screen-action-button" src="icons/arrow_upward.svg" alt="">
-                    <img id="btn-right" class="game-screen-action-button" src="icons/arrow_forward.svg" alt="">
+                    <img id="btn-left" class="game-screen-action-button" src="img/icons/arrow_back_.svg" alt="">
+
+                    <img id="btn-right" class="game-screen-action-button" src="img/icons/arrow_forward.svg" alt="">
                 </div>
                 <div class="game-action-button-container">
-                    <img id="btn-throw" class="game-screen-action-button" src="icons/bottle.svg" alt="">
+                    <img id="btn-up" class="game-screen-action-button" src="img/icons/arrow_upward.svg" alt="">
+                    <img id="btn-throw" class="game-screen-action-button" src="img/icons/bottle.svg" alt="">
                 </div>
             </div>
 
@@ -92,9 +93,9 @@
 
             <!-- Fullscreen button -->
             <div class="fullscreen-menu-button-container">
-                <img id="screenOpenFS" src="icons/fullscreen.svg" alt="" onclick="openFullscreenScreen()"
+                <img id="screenOpenFS" src="img/icons/fullscreen.svg" alt="" onclick="openFullscreenScreen()"
                     class="game-screen-button fullscreen-menu-button FS-d-none">
-                <img id="screenCloseFS" src="icons/close_fullscreen.svg" alt="" onclick="closeFullscreenScreen()"
+                <img id="screenCloseFS" src="img/icons/close_fullscreen.svg" alt="" onclick="closeFullscreenScreen()"
                     class="game-screen-button fullscreen-menu-button FS-d-none d-none">
             </div>
 
@@ -163,13 +164,13 @@
                     <h3>Settings</h3>
                     <div class="setting-icon-settings">
                         <div class="setting-icon-container">
-                            <img src="icons/musicOff.svg" alt="" onclick="soundManager.muteBackgroundMusic()"
+                            <img src="img/icons/musicOff.svg" alt="" onclick="soundManager.muteBackgroundMusic()"
                                 id="soundOff" class="setting-icons d-none">
-                            <img src="icons/musicOn.svg" alt="" onclick="soundManager.muteBackgroundMusic()"
+                            <img src="img/icons/musicOn.svg" alt="" onclick="soundManager.muteBackgroundMusic()"
                                 id="soundOn" class="setting-icons">
-                            <img src="icons/soundOff.svg" alt="" onclick="soundManager.muteSounds()" id="soundEffectOff"
+                            <img src="img/icons/soundOff.svg" alt="" onclick="soundManager.muteSounds()" id="soundEffectOff"
                                 class="setting-icons d-none">
-                            <img src="icons/soundOn.svg" alt="" onclick="soundManager.muteSounds()" id="soundEffectOn"
+                            <img src="img/icons/soundOn.svg" alt="" onclick="soundManager.muteSounds()" id="soundEffectOn"
                                 class="setting-icons">
                         </div>
                         <div class="setting-icon-container">
