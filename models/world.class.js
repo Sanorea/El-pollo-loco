@@ -13,7 +13,8 @@ class World {
     coinsBar = new CoinsBar();
     bottlesBar = new BottlesBar();
     throwableObjects = [];
-    endboss = new Endboss();
+    /* endboss = new Endboss; */
+    /* endboss = this.level.endboss; */
     throwDirection = false;
     checkCollisionsThrowBottlesInterval;
     checkCollisionsEnemiesInterval;
@@ -24,6 +25,7 @@ class World {
 
 
     constructor(canvas, keyboard) {
+        console.log('Endboss aus Level:', this.level.endboss);
         this.ctx = canvas.getContext('2d');
         this.canvas = canvas;    
         this.keyboard = keyboard;
@@ -33,6 +35,11 @@ class World {
         this.checkCollisionsCoins();
         this.checkCollisionsBottles();
         this.checkCollisionsBossChicken();
+
+        console.log('World-Endboss:', this.endboss);
+console.log('Level-Endboss:', this.level.endboss);
+console.log('Sind es dieselben?', this.endboss === this.level.endboss);
+
     }
 
     setWorld() {
@@ -82,9 +89,9 @@ class World {
     checkCollisionsBossChicken() {
         this.checkCollisionsBossChickenInterval = setInterval(() => {
             this.throwableObjects.forEach((bottle) => {
-                if (this.endboss.isColliding(bottle)) {
+                if (this.level.endboss.isColliding(bottle)) {
                     this.throwableObjects = [];
-                    this.endboss.hit(1);
+                    this.level.endboss.hit(1);
                 }
             });
         }, 400);
@@ -140,7 +147,9 @@ class World {
         this.addToMap(this.bottlesBar); // Zeichnet Statusbar für Flaschen        
         this.ctx.translate(+this.camera_x, 0);
         this.addToMap(this.character); //Zeichnet Charakter
-        this.addToMap(this.endboss);
+
+        this.addToMap(this.level.endboss);
+
         this.ctx.translate(-this.camera_x, 0);
         let self = this;
         requestAnimationFrame(function () {
@@ -151,7 +160,7 @@ class World {
     addObjectsToMap(objects) {
         objects.forEach(o => {
             this.addToMap(o);
-            
+           
         });
     }
 
@@ -160,10 +169,10 @@ class World {
             this.flipImage(mo);
         }
         mo.draw(this.ctx);
-        //mo.drawFrame(this.ctx);
-        //mo.drawFrameOffsetCharacter(this.ctx);
-        //mo.drawFrameOffsetChicken(this.ctx);
-        //mo.drawFrameOffsetCoins(this.ctx);
+/*         mo.drawFrame(this.ctx);
+        mo.drawFrameOffsetCharacter(this.ctx);
+        mo.drawFrameOffsetChicken(this.ctx);
+        mo.drawFrameOffsetCoins(this.ctx); */
         if (mo.otherDirection) {
             this.flipImageBack(mo);
         }

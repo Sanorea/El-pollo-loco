@@ -23,11 +23,9 @@ function restart() {
     cleanUI();
     soundManager.checkMuteButtonSound();
     setVolumeAfterReset(currentMusicVolume, currentSoundVolume, currentMusicMuteStatus);
-
 }
 
 function setVolumeAfterReset(currentMusicVolume, currentSoundVolume, currentMusicMuteStatus) {
-    // 🔉 Stelle Lautstärke nach dem Reset wieder her
     soundManager.setVolume(currentMusicVolume);
     soundManager.musicSample.volume = currentMusicVolume;
     const allSounds = loadSoundsAfterReset();
@@ -98,6 +96,10 @@ function cleanUI() {
     document.activeElement.blur();
 }
 
+function pauseGame() {
+    clearAllIntervals();
+}
+
 function toggleFScleanUI() {
     if (fullscreen) {
         document.getElementById('gameCloseFS').classList.remove('d-none');
@@ -152,6 +154,7 @@ function openMenu() {
     document.getElementById('instruction-screen').classList.add('d-none');
     document.getElementById('setting-screen').classList.add('d-none');
     document.getElementById('impressumScreen').classList.add('d-none');
+    pauseGame();
 }
 
 function openInstructions() {
@@ -165,13 +168,14 @@ function openSettings() {
     document.getElementById('menu-screen').classList.add('d-none');
     document.getElementById('setting-screen').classList.remove('d-none');
     soundManager.sliderSounds();
+    pauseGame();
 }
 
 function openImpressum() {
     basicOpenPopupScreen();
     document.getElementById('menu-screen').classList.add('d-none');
     document.getElementById('impressumScreen').classList.remove('d-none');
-    soundManager.sliderSounds();
+    //soundManager.sliderSounds();
 }
 
 function toggleFSButton() {
@@ -242,3 +246,4 @@ function closeFullscreenScreen() {
     document.getElementById('screenCloseFS').classList.add('d-none');
     fullscreen = false;
 }
+

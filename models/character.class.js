@@ -124,12 +124,11 @@ class Character extends MovableObject {
         this.animationInterval = setInterval(() => {
             if (this.isDead()) {
                 this.playAnimation(this.IMAGES_DEAD);
-
                 setTimeout(() => {
                     let gameoverScreen = document.getElementById('gameover-screen');
                     document.getElementById('menuButtonGame').classList.add('d-none');
-
                     gameoverScreen.classList.remove('d-none');
+                    pauseGame();
                 }, 1500);
                 this.y -= this.deadSpeedY;
                 this.deadSpeedY -= this.acceleration + 4;

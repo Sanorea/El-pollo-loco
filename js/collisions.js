@@ -47,10 +47,10 @@ function checkCollisions(world) {
             world.statusBar.setPercentage(world.character.energy);
         }
     });
-    world.level.endboss.forEach((enemy) => {
-        if (world.character.isColliding(enemy)) {
+
+        if (world.character.isColliding(world.level.endboss)) {
             world.character.hit(5);
             world.statusBar.setPercentage(world.character.energy);
         }
-    });
+    ;
 }
