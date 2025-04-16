@@ -28,6 +28,7 @@ let soundManager;
  */
 let fullscreen = false;
 
+
 /**
  * Initializes the game environment and event listeners.
  */
@@ -37,21 +38,24 @@ function init() {
     window.addEventListener('keyup', handleKeyUp);
     soundManager = new Sounds();
     setupTouchControls();
-
+    muteStatusMusic = localStorage.getItem('muteStatusMusic') !== 'false';
+    localStorage.setItem('muteStatusMusic', muteStatusMusic);
+    muteStatusSound = localStorage.getItem('muteStatusSound') !== 'false';
+    localStorage.setItem('muteStatusSound', muteStatusSound);
 }
 
 /**
  * Restarts the game while preserving volume/mute settings.
  */
 function restart() {
-    const currentMusicVolume = soundManager.backgroundMusic.volume;
-    const currentSoundVolume = soundManager.soundSample.volume;
-    const currentMusicMuteStatus = soundManager.backgroundMusic.paused;
-    requestFullscreenIfMobile();
+    const currentMusicVolume = localStorage.getItem('musicVolume') || 1.0;
+    const currentSoundVolume = localStorage.getItem('soundVolume') || 1.0;
+    const currentMusicMuteStatus = localStorage.getItem('muteStatusMusic') === 'true';
     cleanGame();
-    let { musicMuted, soundMuted } = soundManager.handleMuteStatusMusic();
-    resetWorld(musicMuted, soundMuted);
-    soundManager.handleMuteStatusSounds(musicMuted, soundMuted);
+    let { soundMuted } = soundManager.handleMuteStatusMusic();
+    resetWorld(soundMuted);
+    soundManager.handleMuteStatusSounds(soundMuted);
+    soundManager.setMusicStatus(currentMusicMuteStatus);
     cleanUI();
     soundManager.checkMuteButtonSound();
     setVolumeAfterReset(currentMusicVolume, currentSoundVolume, currentMusicMuteStatus);
@@ -66,19 +70,11 @@ function restart() {
 function setVolumeAfterReset(currentMusicVolume, currentSoundVolume, currentMusicMuteStatus) {
     soundManager.setVolume(currentMusicVolume);
     soundManager.musicSample.volume = currentMusicVolume;
-
     const allSounds = loadSoundsAfterReset();
     allSounds.forEach(sound => {
         sound.volume = currentSoundVolume;
     });
-
     soundManager.soundSample.volume = currentSoundVolume;
-
-    if (currentMusicMuteStatus) {
-        soundManager.backgroundMusic.pause();
-    } else {
-        soundManager.backgroundMusic.play();
-    }
 }
 
 /**
@@ -125,10 +121,10 @@ function clearAllIntervals() {
  * @param {boolean} musicMuted - Whether music should be muted.
  * @param {boolean} soundMuted - Whether sounds should be muted.
  */
-function resetWorld(musicMuted, soundMuted) {
+function resetWorld(soundMuted) {
     world = new World(canvas, keyboard);
     soundManager.soundMuted = soundMuted;
-    soundManager.musicMuted = musicMuted;
+    /*     soundManager.musicMuted = musicMuted; */
     world.level = createLevel();
 }
 
@@ -321,7 +317,7 @@ function generalFullscreenCloseUI() {
  * Enters fullscreen mode for the game view.
  */
 function openFullscreenGame() {
-    document.documentElement.requestFullscreen().catch((err) => {});
+    document.documentElement.requestFullscreen().catch((err) => { });
     generalFullscreenOpenUI();
     document.getElementById('gameOpenFS').classList.add('d-none');
     document.getElementById('gameCloseFS').classList.remove('d-none');
@@ -332,7 +328,7 @@ function openFullscreenGame() {
  * Exits fullscreen mode for the game view.
  */
 function closeFullscreenGame() {
-    document.exitFullscreen().catch((err) => {});
+    document.exitFullscreen().catch((err) => { });
     generalFullscreenCloseUI();
     document.getElementById('gameOpenFS').classList.remove('d-none');
     document.getElementById('gameCloseFS').classList.add('d-none');
@@ -343,7 +339,7 @@ function closeFullscreenGame() {
  * Enters fullscreen mode for screens (e.g. menu, settings).
  */
 function openFullscreenScreen() {
-    document.documentElement.requestFullscreen().catch((err) => {});
+    document.documentElement.requestFullscreen().catch((err) => { });
     generalFullscreenOpenUI();
     document.getElementById('screenOpenFS').classList.add('d-none');
     document.getElementById('screenCloseFS').classList.remove('d-none');
@@ -354,7 +350,7 @@ function openFullscreenScreen() {
  * Exits fullscreen mode for screens (e.g. menu, settings).
  */
 function closeFullscreenScreen() {
-    document.exitFullscreen().catch((err) => {});
+    document.exitFullscreen().catch((err) => { });
     generalFullscreenCloseUI();
     document.getElementById('screenOpenFS').classList.remove('d-none');
     document.getElementById('screenCloseFS').classList.add('d-none');
@@ -362,20 +358,20 @@ function closeFullscreenScreen() {
 }
 
 function requestFullscreenIfMobile() {
-    const isMobileSize = window.innerWidth < 1400; 
+    const isMobileSize = window.innerWidth < 1400;
     if (isMobileSize) {
-        document.documentElement.requestFullscreen().catch((err) => {});
+        document.documentElement.requestFullscreen().catch((err) => { });
         generalFullscreenOpenUI();
     }
-  }
-  
-  function setupMobileFullscreenTrigger() {
+}
+
+function setupMobileFullscreenTrigger() {
     function handler() {
-      requestFullscreenIfMobile();
-      window.removeEventListener("touchstart", handler);
-      window.removeEventListener("click", handler);
+        requestFullscreenIfMobile();
+        window.removeEventListener("touchstart", handler);
+        window.removeEventListener("click", handler);
     }
     window.addEventListener("touchstart", handler);
     window.addEventListener("click", handler);
-  }
+}
 

@@ -74,7 +74,7 @@ function checkCollisions(world) {
     collisionEnemies(world.level.smallEnemies);
 
     if (world.character.isColliding(world.level.endboss)) {
-        world.character.hit(5);
+        world.character.hit(20);
         world.statusBar.setPercentage(world.character.energy);
     }
 }
@@ -88,7 +88,7 @@ function collisionEnemies(key) {
     let actuellTime = new Date().getTime();
     key.forEach((enemy) => {
         if (world.character.isColliding(enemy) && actuellTime - lastJumpOnEnemy > 1500) {
-            world.character.hit(5);
+            world.character.hit(10);
             world.statusBar.setPercentage(world.character.energy);
         }
     });

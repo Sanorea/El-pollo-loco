@@ -43,9 +43,9 @@ class Endboss extends MovableObject {
     /**
      * The speed at which the Endboss moves.
      * @type {number}
-     * @default 40
+     * @default 50
      */
-    speed = 40;
+    speed = 50;
 
     /**
      * A flag to indicate if the Endboss is facing the opposite direction.
@@ -123,7 +123,7 @@ class Endboss extends MovableObject {
         this.bossAnimationInterval = setInterval(() => {
             if (this.isDead()) {
                 this.deadBossChickenAnimation();
-            } else if (this.isHurt(2)) {
+            } else if (this.isHurt(0.3)) {
                 this.playAnimation(this.IMAGES_HURT);
             } else {
                 this.bossChickenAttack();

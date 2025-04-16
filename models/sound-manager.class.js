@@ -16,6 +16,7 @@ class Sounds {
     /** @type {HTMLAudioElement} */ winSound;
     /** @type {HTMLAudioElement} */ loseSound;
     /** @type {HTMLAudioElement} */ snoreSound;
+    /** @type {HTMLAudioElement} */ backgroundMusic;
 
     /** @type {boolean} */ soundMuted;
     /** @type {boolean} */ musicMuted;
@@ -26,8 +27,7 @@ class Sounds {
      */
     constructor() {
         this.initAudioData();
-        this.musicMuted = false;
-        this.soundMuted = false;
+        this.soundMuted = true;
     }
 
     /**
@@ -97,16 +97,39 @@ class Sounds {
      * Toggles the background music on or off.
      */
     toggleMusic() {
-        if (this.backgroundMusic.paused) {
+        let muteStatusBackgroundMusic = localStorage.getItem('muteStatusMusic') === 'true';
+        if (muteStatusBackgroundMusic) {
             this.backgroundMusic.play();
             document.getElementById('soundOn').classList.remove('d-none');
             document.getElementById('soundOff').classList.add('d-none');
+            localStorage.setItem('muteStatusMusic', false);
         } else {
             this.backgroundMusic.pause();
             document.getElementById('soundOn').classList.add('d-none');
             document.getElementById('soundOff').classList.remove('d-none');
+            localStorage.setItem('muteStatusMusic', true);
         }
         document.activeElement.blur();
+    }
+
+    /**
+ * Restores music playback or pause state and updates UI icons.
+ * @param {boolean} musicPaused
+ */
+    setMusicStatus(musicPaused) {
+        console.log('currentMusicMuteStatus2 :>> ', musicPaused);
+        if (musicPaused) {
+            this.backgroundMusic.pause();
+            document.getElementById('soundOn').classList.add('d-none');
+            document.getElementById('soundOff').classList.remove('d-none');
+            console.log('pause :>> ', this.backgroundMusic.paused);
+        } else {
+            this.backgroundMusic.play();
+            document.getElementById('soundOn').classList.remove('d-none');
+            document.getElementById('soundOff').classList.add('d-none');
+            console.log('spielt :>> ', this.backgroundMusic.paused);
+
+        }
     }
 
     /**
@@ -123,9 +146,8 @@ class Sounds {
      * @returns {{musicMuted: boolean, soundMuted: boolean}}
      */
     handleMuteStatusMusic() {
-        let musicMuted = this?.backgroundMusic.paused || false;
         let soundMuted = this?.coinSound.muted || false;
-        return { musicMuted, soundMuted };
+        return { soundMuted };
     }
 
     /**
@@ -133,10 +155,9 @@ class Sounds {
      * @param {boolean} musicMuted - Whether music is muted.
      * @param {boolean} soundMuted - Whether sound effects are muted.
      */
-    handleMuteStatusSounds(musicMuted, soundMuted) {
+    handleMuteStatusSounds(soundMuted) {
         this.soundMuted = soundMuted;
         this.loadSoundsStatus();
-        this.setMusicStatus(musicMuted);
         this.toggleSoundButton(this.soundMuted);
     }
 
@@ -150,21 +171,7 @@ class Sounds {
         });
     }
 
-    /**
-     * Restores music playback or pause state and updates UI icons.
-     * @param {boolean} musicPaused
-     */
-    setMusicStatus(musicPaused) {
-        if (musicPaused) {
-            this.backgroundMusic.pause();
-            document.getElementById('soundOn').classList.add('d-none');
-            document.getElementById('soundOff').classList.remove('d-none');
-        } else {
-            this.backgroundMusic.play();
-            document.getElementById('soundOn').classList.remove('d-none');
-            document.getElementById('soundOff').classList.add('d-none');
-        }
-    }
+
 
     /**
      * Updates UI elements depending on whether sound effects are muted.
@@ -180,13 +187,6 @@ class Sounds {
      */
     checkMuteButtonSound() {
         if (!this || !this.soundMuted) this.playButtonSound();
-    }
-
-    /**
-     * Shortcut to toggle background music.
-     */
-    muteBackgroundMusic() {
-        this.toggleMusic();
     }
 
     /**
@@ -235,35 +235,37 @@ class Sounds {
         }
     }
 
-       /**
-     * Initializes both music and sound volume sliders.
-     */
+    /**
+  * Initializes both music and sound volume sliders.
+  */
     sliderSounds() {
         this.playSliderMusic();
         this.playSliderSound();
         document.activeElement.blur();
     };
 
-        /**
-     * Initializes the background music volume slider and its event listener.
-     */
+    /**
+ * Initializes the background music volume slider and its event listener.
+ */
     playSliderMusic() {
         const musicSlider = document.getElementById("musicVolume");
-        musicSlider.value = this.backgroundMusic.volume || 1.0;
+        musicSlider.value = localStorage.getItem('musicVolume') || 1.0;
         musicSlider.addEventListener("input", (event) => {
             const volume = event.target.value;
             this.setVolume(volume);
             this.musicSample.volume = volume;
             this.playMusicSample();
+            localStorage.setItem('musicVolume', musicSlider.value);
         });
     }
 
-        /**
-     * Initializes the sound effect volume slider and its event listener.
-     */
+    /**
+ * Initializes the sound effect volume slider and its event listener.
+ */
     playSliderSound() {
         const soundSlider = document.getElementById("soundVolume");
-        soundSlider.value = this.soundSample.volume || 1.0;
+        soundSlider.value = localStorage.getItem('soundVolume') || 1.0;
+        /*         soundSlider.value = this.soundSample.volume || 1.0; */
         soundSlider.addEventListener("input", (event) => {
             const volume = parseFloat(event.target.value);
             let allSounds = this.loadAllSounds();
@@ -272,7 +274,9 @@ class Sounds {
             });
             this.soundSample.volume = volume;
             this.playSoundSample();
+            localStorage.setItem('soundVolume', soundSlider.value);
         });
+
     }
 }
 
