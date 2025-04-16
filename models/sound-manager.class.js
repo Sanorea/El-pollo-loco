@@ -117,18 +117,14 @@ class Sounds {
  * @param {boolean} musicPaused
  */
     setMusicStatus(musicPaused) {
-        console.log('currentMusicMuteStatus2 :>> ', musicPaused);
         if (musicPaused) {
             this.backgroundMusic.pause();
             document.getElementById('soundOn').classList.add('d-none');
             document.getElementById('soundOff').classList.remove('d-none');
-            console.log('pause :>> ', this.backgroundMusic.paused);
         } else {
             this.backgroundMusic.play();
             document.getElementById('soundOn').classList.remove('d-none');
             document.getElementById('soundOff').classList.add('d-none');
-            console.log('spielt :>> ', this.backgroundMusic.paused);
-
         }
     }
 
@@ -142,36 +138,25 @@ class Sounds {
     }
 
     /**
-     * Checks and returns the current mute status of music and sounds.
-     * @returns {{musicMuted: boolean, soundMuted: boolean}}
-     */
-    handleMuteStatusMusic() {
-        let soundMuted = this?.coinSound.muted || false;
-        return { soundMuted };
-    }
-
-    /**
-     * Applies mute settings to music and sound effects.
-     * @param {boolean} musicMuted - Whether music is muted.
+     * Applies mute settings to sound effects.
      * @param {boolean} soundMuted - Whether sound effects are muted.
      */
     handleMuteStatusSounds(soundMuted) {
-        this.soundMuted = soundMuted;
-        this.loadSoundsStatus();
-        this.toggleSoundButton(this.soundMuted);
+        this.loadSoundsStatus(soundMuted);
+        this.toggleSoundButton(soundMuted);
     }
 
     /**
      * Loads and sets the mute state for all sound effect audio elements.
      */
-    loadSoundsStatus() {
+    loadSoundsStatus(soundMuted) {
         const effectSounds = this.loadAllSounds();
         effectSounds.forEach(sound => {
-            sound.muted = this.soundMuted;
+            if (soundMuted) {
+                sound.muted = soundMuted;
+            }
         });
     }
-
-
 
     /**
      * Updates UI elements depending on whether sound effects are muted.
@@ -193,15 +178,18 @@ class Sounds {
      * Toggles all sound effects on or off and updates UI.
      */
     muteSounds() {
-        let { musicMuted, soundMuted } = this.handleMuteStatusMusic();
-        this.soundMuted = !soundMuted;
+        let currentMuteStatus = localStorage.getItem('muteStatusSound') === 'true'; // true = aktuell gemutet
+        let newMuteStatus = !currentMuteStatus;
         let allSounds = this.loadAllSounds();
         allSounds.forEach(sound => {
-            sound.muted = this.soundMuted;
+            sound.muted = newMuteStatus;
         });
+        localStorage.setItem('muteStatusSound', newMuteStatus.toString());
+        this.soundMuted = newMuteStatus;  // für die UI später wichtig
         this.handleSoundMutedEffect();
         document.activeElement.blur();
     }
+
 
     /**
      * Returns an array of all game sound effect audio elements.
@@ -265,7 +253,6 @@ class Sounds {
     playSliderSound() {
         const soundSlider = document.getElementById("soundVolume");
         soundSlider.value = localStorage.getItem('soundVolume') || 1.0;
-        /*         soundSlider.value = this.soundSample.volume || 1.0; */
         soundSlider.addEventListener("input", (event) => {
             const volume = parseFloat(event.target.value);
             let allSounds = this.loadAllSounds();

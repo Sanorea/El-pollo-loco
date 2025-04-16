@@ -60,8 +60,10 @@ class MovableObject extends DrawableObject {
             if (this.isAboveGround() || this.speedY > 0) {
                 this.y -= this.speedY;
                 this.speedY -= this.acceleration;
+            } else {
+                this.y = 160;
             }
-        }, 1000 / 25);
+        }, 1000 / 35);
     }
 
     /**
@@ -157,19 +159,42 @@ class MovableObject extends DrawableObject {
             this.y + this.offsetCharacter.top < mo.y + mo.height - mo.offsetCoins.bottom;
     }
 
-    /**
-     * Checks if the object is colliding with a bottle.
-     * The collision is checked based on the position and size of both the object and the bottle.
-     *
-     * @param {MovableObject} mo - The bottle to check for a collision.
-     * @returns {boolean} `true` if the objects are colliding, `false` otherwise.
-     */
-    isCollidingBottles(mo) {
-        return this.x + this.width > mo.x &&
-            this.y + this.height > mo.y &&
-            this.x < mo.x + mo.width &&
-            this.y < mo.y + mo.height;
-    }
+/**
+ * Checks for a collision between the character and a bottle, taking into account their respective offset hitboxes.
+ *
+ * This function calculates the actual collision boundaries for both the character and the bottle
+ * by applying individual offsets. It then checks whether these boundaries intersect.
+ *
+ * @param {Object} mo - The bottle object to check for collision with.
+ * @param {number} mo.x - The x-coordinate of the bottle.
+ * @param {number} mo.y - The y-coordinate of the bottle.
+ * @param {number} mo.width - The width of the bottle.
+ * @param {number} mo.height - The height of the bottle.
+ * @param {Object} mo.offsetBottles - The offset values defining the hitbox of the bottle.
+ * @param {number} mo.offsetBottles.left - The left offset of the bottle's hitbox.
+ * @param {number} mo.offsetBottles.right - The right offset of the bottle's hitbox.
+ * @param {number} mo.offsetBottles.top - The top offset of the bottle's hitbox.
+ * @param {number} mo.offsetBottles.bottom - The bottom offset of the bottle's hitbox.
+ *
+ * @returns {boolean} Returns true if the character and the bottle are colliding, false otherwise.
+ */
+isCollidingBottles(mo) {
+    let charLeft   = this.x + this.offsetCharacter.left;
+    let charRight  = this.x + this.width - this.offsetCharacter.right;
+    let charTop    = this.y + this.offsetCharacter.top;
+    let charBottom = this.y + this.height - this.offsetCharacter.bottom;
+    let bottleLeft   = mo.x + mo.offsetBottles.left;
+    let bottleRight  = mo.x + mo.width - mo.offsetBottles.right;
+    let bottleTop    = mo.y + mo.offsetBottles.top;
+    let bottleBottom = mo.y + mo.height - mo.offsetBottles.bottom;
+    return (
+        charRight > bottleLeft &&
+        charLeft < bottleRight &&
+        charBottom > bottleTop &&
+        charTop < bottleBottom
+    );
+}
+
 
     /**
      * Reduces the object's energy by a specified amount when it is hit.

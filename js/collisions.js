@@ -72,7 +72,6 @@ function isColliding(character, enemy) {
 function checkCollisions(world) {
     collisionEnemies(world.level.enemies);
     collisionEnemies(world.level.smallEnemies);
-
     if (world.character.isColliding(world.level.endboss)) {
         world.character.hit(20);
         world.statusBar.setPercentage(world.character.energy);

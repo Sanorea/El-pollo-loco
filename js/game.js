@@ -40,8 +40,10 @@ function init() {
     setupTouchControls();
     muteStatusMusic = localStorage.getItem('muteStatusMusic') !== 'false';
     localStorage.setItem('muteStatusMusic', muteStatusMusic);
-    muteStatusSound = localStorage.getItem('muteStatusSound') !== 'false';
-    localStorage.setItem('muteStatusSound', muteStatusSound);
+    if (localStorage.getItem('muteStatusSound') === null) {
+        localStorage.setItem('muteStatusSound', 'false');
+    }
+    this.soundMuted = localStorage.getItem('muteStatusSound') === 'true';
 }
 
 /**
@@ -51,23 +53,22 @@ function restart() {
     const currentMusicVolume = localStorage.getItem('musicVolume') || 1.0;
     const currentSoundVolume = localStorage.getItem('soundVolume') || 1.0;
     const currentMusicMuteStatus = localStorage.getItem('muteStatusMusic') === 'true';
+    const currentSoundMuteStatus = localStorage.getItem('muteStatusSound') === 'true';;
     cleanGame();
-    let { soundMuted } = soundManager.handleMuteStatusMusic();
-    resetWorld(soundMuted);
-    soundManager.handleMuteStatusSounds(soundMuted);
+    resetWorld();
     soundManager.setMusicStatus(currentMusicMuteStatus);
     cleanUI();
     soundManager.checkMuteButtonSound();
-    setVolumeAfterReset(currentMusicVolume, currentSoundVolume, currentMusicMuteStatus);
+    setVolumeAfterReset(currentMusicVolume, currentSoundVolume);
+    soundManager.handleMuteStatusSounds(currentSoundMuteStatus);
 }
 
 /**
  * Restores volume and playback status for music and sounds.
  * @param {number} currentMusicVolume - Previous background music volume.
  * @param {number} currentSoundVolume - Previous sound effect volume.
- * @param {boolean} currentMusicMuteStatus - Whether music was muted before reset.
  */
-function setVolumeAfterReset(currentMusicVolume, currentSoundVolume, currentMusicMuteStatus) {
+function setVolumeAfterReset(currentMusicVolume, currentSoundVolume) {
     soundManager.setVolume(currentMusicVolume);
     soundManager.musicSample.volume = currentMusicVolume;
     const allSounds = loadSoundsAfterReset();
@@ -118,13 +119,9 @@ function clearAllIntervals() {
 
 /**
  * Creates a new game world instance.
- * @param {boolean} musicMuted - Whether music should be muted.
- * @param {boolean} soundMuted - Whether sounds should be muted.
  */
-function resetWorld(soundMuted) {
+function resetWorld() {
     world = new World(canvas, keyboard);
-    soundManager.soundMuted = soundMuted;
-    /*     soundManager.musicMuted = musicMuted; */
     world.level = createLevel();
 }
 
@@ -357,21 +354,45 @@ function closeFullscreenScreen() {
     fullscreen = false;
 }
 
+
+/**
+ * Requests fullscreen mode if the device has a small screen width (typically mobile).
+ * If the width is below 1400 pixels, the browser attempts to enter fullscreen mode.
+ * Also triggers the UI changes related to fullscreen mode.
+ *
+ * @function
+ */
 function requestFullscreenIfMobile() {
     const isMobileSize = window.innerWidth < 1400;
     if (isMobileSize) {
-        document.documentElement.requestFullscreen().catch((err) => { });
+        document.documentElement.requestFullscreen().catch((err) => {
+            // Fail silently if fullscreen request fails
+        });
         generalFullscreenOpenUI();
     }
 }
 
+/**
+ * Sets up a one-time event listener to trigger fullscreen mode on user interaction (touch or click).
+ * This is necessary for mobile devices due to browser restrictions that require user gestures
+ * to initiate fullscreen mode.
+ *
+ * @function
+ */
 function setupMobileFullscreenTrigger() {
+    /**
+     * Event handler to request fullscreen and remove itself after first interaction.
+     *
+     * @private
+     */
     function handler() {
         requestFullscreenIfMobile();
         window.removeEventListener("touchstart", handler);
         window.removeEventListener("click", handler);
     }
+
     window.addEventListener("touchstart", handler);
     window.addEventListener("click", handler);
 }
+
 

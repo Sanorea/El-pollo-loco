@@ -125,4 +125,20 @@ class DrawableObject {
             ctx.stroke();            
         }
     } 
+
+     /**
+     * Draws a frame around the bottles object, adjusted with its specific offsets.
+     * 
+     * @param {CanvasRenderingContext2D} ctx - The canvas rendering context to draw the frame on.
+     * @method
+     */
+    drawFrameOffsetBottles(ctx) {
+        if (this instanceof Bottles) {
+            ctx.beginPath();
+            ctx.lineWidth = '5';
+            ctx.strokeStyle = 'red';
+            ctx.rect(this.x + this.offsetBottles.left, this.y + this.offsetBottles.top, this.width - this.offsetBottles.right, this.height - this.offsetBottles.bottom);
+            ctx.stroke();            
+        }
+    } 
 }
